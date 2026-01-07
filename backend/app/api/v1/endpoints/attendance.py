@@ -6,8 +6,8 @@ from app.api import deps
 
 router = APIRouter()
 
-from app.services.face_service import face_service
-import numpy as np
+# from app.services.face_service import face_service
+# import numpy as np
 
 from app.core.encryption import DataEncryption
 

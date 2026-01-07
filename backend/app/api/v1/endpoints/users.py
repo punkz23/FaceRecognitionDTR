@@ -48,8 +48,8 @@ def create_user(
     db.refresh(db_obj)
     return db_obj
 
-from app.services.face_service import face_service
-import numpy as np
+# from app.services.face_service import face_service
+# import numpy as np
 
 from app.core.encryption import DataEncryption
 
@@ -61,7 +61,7 @@ def enroll_face(
     current_user: models.User = Depends(deps.get_current_active_admin),
 ):
     """
-    Enroll a face for a user.
+    Enroll face for user recognition.
     """
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
