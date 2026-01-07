@@ -16,6 +16,8 @@ class LoginRequested extends AuthEvent {
 
 class LogoutRequested extends AuthEvent {}
 
+class AppStarted extends AuthEvent {}
+
 // States
 abstract class AuthState extends Equatable {
   @override
@@ -35,6 +37,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
 
   AuthBloc({required this.authRepository}) : super(AuthInitial()) {
+    on<AppStarted>((event, emit) async {
+      final token = await authRepository.getToken();
+      if (token != null) {
+        emit(AuthAuthenticated());
+      } else {
+        emit(AuthInitial());
+      }
+    });
+
     on<LoginRequested>((event, emit) async {
       emit(AuthLoading());
       try {

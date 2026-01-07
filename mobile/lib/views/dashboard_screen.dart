@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:facerecognitiondtr/views/face_capture_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -85,7 +86,9 @@ class DashboardScreen extends StatelessWidget {
   Widget _buildActionButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Navigate to Camera Screen
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const FaceCaptureScreen()),
+        );
       },
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 24),

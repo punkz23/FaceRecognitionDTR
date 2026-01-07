@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
+import 'package:facerecognitiondtr/services/attendance_repository.dart';
 
 class FaceCaptureScreen extends StatefulWidget {
   const FaceCaptureScreen({super.key});
@@ -11,10 +14,18 @@ class FaceCaptureScreen extends StatefulWidget {
 class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
   CameraController? _controller;
   bool _isProcessing = false;
+  late FaceDetector _faceDetector;
+  final AttendanceRepository _attendanceRepository = AttendanceRepository();
 
   @override
   void initState() {
     super.initState();
+    _faceDetector = FaceDetector(
+      options: FaceDetectorOptions(
+        enableContours: true,
+        enableClassification: true,
+      ),
+    );
     _initializeCamera();
   }
 
@@ -37,6 +48,7 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
   @override
   void dispose() {
     _controller?.dispose();
+    _faceDetector.close();
     super.dispose();
   }
 
@@ -62,7 +74,7 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
   Widget _buildOverlay() {
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
-        Colors.black.withOpacity(0.7),
+        Colors.black.withValues(alpha: 0.7),
         BlendMode.srcOut,
       ),
       child: Stack(
@@ -97,8 +109,46 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
       child: Center(
         child: FloatingActionButton.large(
           onPressed: _isProcessing ? null : () async {
+            if (_controller == null || !_controller!.value.isInitialized) return;
+
             setState(() => _isProcessing = true);
-            // Capture and Send to API Logic
+
+            try {
+              final XFile image = await _controller!.takePicture();
+              final inputImage = InputImage.fromFilePath(image.path);
+              final faces = await _faceDetector.processImage(inputImage);
+
+              if (faces.isEmpty) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('No face detected. Please try again.')),
+                  );
+                }
+                setState(() => _isProcessing = false);
+                return;
+              }
+
+              // Send to API
+              final result = await _attendanceRepository.clockIn(
+                File(image.path),
+                null, // Latitude
+                null, // Longitude
+              );
+
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Success: ${result['message'] ?? 'Clocked in successfully'}')),
+                );
+                Navigator.of(context).pop();
+              }
+            } catch (e) {
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error: $e')),
+                );
+              }
+              setState(() => _isProcessing = false);
+            }
           },
           backgroundColor: Colors.white,
           child: const Icon(Icons.camera, size: 48, color: Color(0xFF0D47A1)),

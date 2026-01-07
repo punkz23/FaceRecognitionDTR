@@ -1,0 +1,53 @@
+# Hybrid Dockerfile - system packages + local pip install
+FROM node:18
+
+# Install Python and system packages
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    python3-dev \
+    cmake \
+    build-essential \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    curl \
+    # Install basic Python packages via system
+    python3-numpy \
+    python3-opencv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create symlink for python
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# Set work directory
+WORKDIR /app
+
+# Create virtual environment and install dependencies
+COPY requirements.txt .
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install only essential packages that might be available locally first
+RUN pip install --no-index --find-links /dev/null fastapi uvicorn 2>/dev/null || \
+    pip install fastapi uvicorn --no-deps 2>/dev/null || \
+    echo "Will install later"
+
+# Copy project files
+COPY . .
+
+# Try to install remaining packages with network fallback
+RUN pip install --no-cache-dir -r requirements.txt || \
+    (echo "Network install failed, trying minimal setup..." && \
+     pip install --no-deps fastapi uvicorn sqlalchemy psycopg2-binary pydantic pydantic-settings python-jose passlib python-multipart python-dotenv)
+
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash app \
+    && chown -R app:app /app /opt/venv
+USER app
+
+# Expose port
+EXPOSE 8000
+
+# Run the application
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

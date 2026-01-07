@@ -11,3 +11,4 @@ python-dotenv
 face_recognition
 numpy
 opencv-python-headless
+alembic

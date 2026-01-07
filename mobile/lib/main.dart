@@ -7,6 +7,7 @@ import 'package:facerecognitiondtr/services/auth_repository.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  print('Starting SafeTime DTR app...');
   runApp(const MyApp());
 }
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthBloc(authRepository: AuthRepository()),
+          create: (context) => AuthBloc(authRepository: AuthRepository())..add(AppStarted()),
         ),
       ],
       child: MaterialApp(
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         ),
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
+            print('Current auth state: ${state.runtimeType}');
             if (state is AuthAuthenticated) {
               return const DashboardScreen();
             }

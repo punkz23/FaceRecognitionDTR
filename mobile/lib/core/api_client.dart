@@ -4,8 +4,11 @@ import 'package:facerecognitiondtr/core/security_config.dart';
 
 class ApiClient {
   final Dio _dio;
-  // Use 10.0.2.2 for Android emulator to access host localhost
-  static const String baseUrl = 'http://10.0.2.2:8000/api/v1';
+  // Use different URLs for different platforms
+  static const String baseUrl = String.fromEnvironment(
+    'BASE_URL',
+    defaultValue: 'http://localhost:8000/api/v1',
+  );
 
   ApiClient()
       : _dio = Dio(BaseOptions(
