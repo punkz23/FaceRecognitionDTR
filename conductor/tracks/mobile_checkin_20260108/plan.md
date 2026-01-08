@@ -17,8 +17,8 @@ This plan outlines the steps to implement the automated mobile check-in system.
     - [x] Implement Feature: Enhance `face_service.py` to handle verification against stored employee profiles.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Face Verification Integration' (Protocol in workflow.md) (cf1fa52)
 
-## Phase 3: Mobile App Core Flow
-- [x] Task: Implement Face Capture UI in Flutter (7f2df18)
+## Phase 3: Mobile App Core Flow [checkpoint: f077920]
+- [x] Task: Implement Face Capture UI in Flutter (7b29f34)
     - [x] Write Tests: Create widget tests for the face capture screen.
     - [x] Implement Feature: Build the camera interface in the mobile app.
 - [x] Task: Implement Location Validation in Flutter (7b29f34)
@@ -27,4 +27,4 @@ This plan outlines the steps to implement the automated mobile check-in system.
 - [x] Task: Integrate Mobile Check-in with Backend API (140bd6d)
     - [x] Write Tests: Create integration tests for the mobile-to-backend communication.
     - [x] Implement Feature: Connect the UI, location, and camera to the attendance API.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Mobile App Core Flow' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Mobile App Core Flow' (Protocol in workflow.md) (f077920)
