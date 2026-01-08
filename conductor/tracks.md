@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [ ] Track: Implement Unified Mobile Check-in for Branches
+## [~] Track: Implement Unified Mobile Check-in for Branches
 *Link: [./conductor/tracks/mobile_checkin_20260108/](./conductor/tracks/mobile_checkin_20260108/)*

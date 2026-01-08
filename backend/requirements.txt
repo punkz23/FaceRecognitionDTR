@@ -12,3 +12,4 @@ face_recognition
 numpy
 opencv-python-headless
 alembic
+email-validator
