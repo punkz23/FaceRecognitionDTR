@@ -24,7 +24,7 @@ This plan outlines the steps to implement the automated mobile check-in system.
 - [x] Task: Implement Location Validation in Flutter (7b29f34)
     - [x] Write Tests: Create unit tests for location service integration.
     - [x] Implement Feature: Add GPS coordinate retrieval to the check-in flow.
-- [ ] Task: Integrate Mobile Check-in with Backend API
-    - [ ] Write Tests: Create integration tests for the mobile-to-backend communication.
-    - [ ] Implement Feature: Connect the UI, location, and camera to the attendance API.
+- [x] Task: Integrate Mobile Check-in with Backend API (140bd6d)
+    - [x] Write Tests: Create integration tests for the mobile-to-backend communication.
+    - [x] Implement Feature: Connect the UI, location, and camera to the attendance API.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Mobile App Core Flow' (Protocol in workflow.md)

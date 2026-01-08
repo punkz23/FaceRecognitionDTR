@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:facerecognitiondtr/services/attendance_repository.dart';
+import 'package:facerecognitiondtr/services/location_service.dart';
 
 class FaceCaptureScreen extends StatefulWidget {
   const FaceCaptureScreen({super.key});
@@ -16,6 +17,7 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
   bool _isProcessing = false;
   late FaceDetector _faceDetector;
   final AttendanceRepository _attendanceRepository = AttendanceRepository();
+  final LocationService _locationService = LocationService();
 
   @override
   void initState() {
@@ -114,6 +116,7 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
             setState(() => _isProcessing = true);
 
             try {
+              final position = await _locationService.getCurrentLocation();
               final XFile image = await _controller!.takePicture();
               final inputImage = InputImage.fromFilePath(image.path);
               final faces = await _faceDetector.processImage(inputImage);
@@ -131,8 +134,8 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
               // Send to API
               final result = await _attendanceRepository.clockIn(
                 File(image.path),
-                null, // Latitude
-                null, // Longitude
+                position?.latitude,
+                position?.longitude,
               );
 
               if (mounted) {
