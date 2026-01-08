@@ -25,7 +25,7 @@ def create_user(
     *,
     db: Session = Depends(deps.get_db),
     user_in: schemas.UserCreate,
-    current_user: models.User = Depends(deps.get_current_active_admin),
+    #current_user: models.User = Depends(deps.get_current_active_admin),
 ) -> Any:
     """
     Create new user.
