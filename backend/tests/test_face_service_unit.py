@@ -26,8 +26,8 @@ def test_verify_face_match(mocker):
     known_encoding = np.random.rand(128)
     image_encoding = known_encoding.copy()
     
-    mocker.patch("app.services.face_service.face_service.decode_image", return_value=np.zeros((100, 100, 3)))
-    mocker.patch("app.services.face_service.face_service.get_face_encodings", return_value=[image_encoding])
+    mocker.patch("app.services.face_service.FaceService.decode_image", return_value=np.zeros((100, 100, 3)))
+    mocker.patch("app.services.face_service.FaceService.get_face_encodings", return_value=[image_encoding])
     mocker.patch("app.services.face_service.face_recognition.compare_faces", return_value=[True])
     mocker.patch("app.services.face_service.face_recognition.face_distance", return_value=[0.1])
     
@@ -41,8 +41,8 @@ def test_verify_face_no_match(mocker):
     known_encoding = np.random.rand(128)
     image_encoding = np.random.rand(128)
     
-    mocker.patch("app.services.face_service.face_service.decode_image", return_value=np.zeros((100, 100, 3)))
-    mocker.patch("app.services.face_service.face_service.get_face_encodings", return_value=[image_encoding])
+    mocker.patch("app.services.face_service.FaceService.decode_image", return_value=np.zeros((100, 100, 3)))
+    mocker.patch("app.services.face_service.FaceService.get_face_encodings", return_value=[image_encoding])
     mocker.patch("app.services.face_service.face_recognition.compare_faces", return_value=[False])
     mocker.patch("app.services.face_service.face_recognition.face_distance", return_value=[0.7])
     
@@ -54,20 +54,20 @@ def test_verify_face_no_match(mocker):
 def test_verify_face_no_face_detected(mocker):
     known_encoding = np.random.rand(128)
     
-    mocker.patch("app.services.face_service.face_service.decode_image", return_value=np.zeros((100, 100, 3)))
-    mocker.patch("app.services.face_service.face_service.get_face_encodings", return_value=[])
+    mocker.patch("app.services.face_service.FaceService.decode_image", return_value=np.zeros((100, 100, 3)))
+    mocker.patch("app.services.face_service.FaceService.get_face_encodings", return_value=[])
     
     with pytest.raises(ValueError, match="No face detected in image"):
         face_service.verify_face("fake_base64", [known_encoding])
 
 def test_verify_face_decode_error(mocker):
-    mocker.patch("app.services.face_service.face_service.decode_image", return_value=None)
+    mocker.patch("app.services.face_service.FaceService.decode_image", return_value=None)
     with pytest.raises(ValueError, match="Failed to decode image"):
         face_service.verify_face("fake_base64", [np.random.rand(128)])
 
 def test_verify_face_empty_known_encodings(mocker):
-    mocker.patch("app.services.face_service.face_service.decode_image", return_value=np.zeros((100, 100, 3)))
-    mocker.patch("app.services.face_service.face_service.get_face_encodings", return_value=[np.random.rand(128)])
+    mocker.patch("app.services.face_service.FaceService.decode_image", return_value=np.zeros((100, 100, 3)))
+    mocker.patch("app.services.face_service.FaceService.get_face_encodings", return_value=[np.random.rand(128)])
     mocker.patch("app.services.face_service.face_recognition.compare_faces", return_value=[])
     mocker.patch("app.services.face_service.face_recognition.face_distance", return_value=[])
     
