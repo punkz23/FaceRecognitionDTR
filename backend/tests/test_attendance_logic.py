@@ -35,13 +35,11 @@ def test_create_attendance_success(mocker):
     user = MockUser(id=user_id, branch=branch)
     
     # Mocking face_service
-    mocker.patch("app.api.v1.endpoints.attendance.face_service.decode_image", return_value=np.zeros((100, 100, 3)))
-    mocker.patch("app.api.v1.endpoints.attendance.face_service.get_face_encodings", return_value=[np.random.rand(128)])
-    mocker.patch("app.api.v1.endpoints.attendance.face_service.compare_faces", return_value=(True, 0.1))
+    mocker.patch("app.api.v1.endpoints.attendance.face_service.verify_against_encrypted_storage", return_value=(True, 0.1))
     
     # Mocking DB query for FaceEncoding
     mock_face_encoding = mocker.Mock()
-    mock_face_encoding.encoding = DataEncryption.encrypt(np.random.rand(128).astype(np.float64).tobytes())
+    mock_face_encoding.encoding = b"some_encrypted_bytes"
     
     def mock_refresh(obj):
         obj.id = uuid4()
@@ -79,12 +77,10 @@ def test_create_attendance_wrong_location(mocker):
     branch = MockBranch(latitude=14.5995, longitude=120.9842, radius_meters=100.0)
     user = MockUser(id=user_id, branch=branch)
     
-    mocker.patch("app.api.v1.endpoints.attendance.face_service.decode_image", return_value=np.zeros((100, 100, 3)))
-    mocker.patch("app.api.v1.endpoints.attendance.face_service.get_face_encodings", return_value=[np.random.rand(128)])
-    mocker.patch("app.api.v1.endpoints.attendance.face_service.compare_faces", return_value=(True, 0.1))
+    mocker.patch("app.api.v1.endpoints.attendance.face_service.verify_against_encrypted_storage", return_value=(True, 0.1))
     
     mock_face_encoding = mocker.Mock()
-    mock_face_encoding.encoding = DataEncryption.encrypt(np.random.rand(128).astype(np.float64).tobytes())
+    mock_face_encoding.encoding = b"some_encrypted_bytes"
     
     def mock_refresh(obj):
         obj.id = uuid4()
@@ -115,11 +111,15 @@ def test_create_attendance_wrong_location(mocker):
 
 def test_create_attendance_no_face_detected(mocker):
     user = MockUser(id=uuid4())
-    mocker.patch("app.api.v1.endpoints.attendance.face_service.decode_image", return_value=np.zeros((100, 100, 3)))
-    mocker.patch("app.api.v1.endpoints.attendance.face_service.get_face_encodings", return_value=[])
+    mocker.patch("app.api.v1.endpoints.attendance.face_service.verify_against_encrypted_storage", 
+                 side_effect=ValueError("No face detected in image"))
     
+    mock_db = mocker.Mock()
+    mock_face_encoding = mocker.Mock()
+    mock_db.query.return_value.filter.return_value.all.return_value = [mock_face_encoding]
+
     app.dependency_overrides[deps.get_current_user] = lambda: user
-    app.dependency_overrides[deps.get_db] = lambda: mocker.Mock()
+    app.dependency_overrides[deps.get_db] = lambda: mock_db
     
     data = {"type": "CLOCK_IN", "snapshot_base64": "some_base64"}
     response = client.post("/api/v1/attendance/", json=data)

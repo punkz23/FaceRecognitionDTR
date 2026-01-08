@@ -12,9 +12,9 @@ This plan outlines the steps to implement the automated mobile check-in system.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Backend Foundation' (Protocol in workflow.md) (63f3aae)
 
 ## Phase 2: Face Verification Integration
-- [ ] Task: Implement Face Matching logic in `face_service.py`
-    - [ ] Write Tests: Create unit tests for face encoding and comparison.
-    - [ ] Implement Feature: Enhance `face_service.py` to handle verification against stored employee profiles.
+- [x] Task: Implement Face Matching logic in `face_service.py` (Completed)
+    - [x] Write Tests: Create unit tests for face encoding and comparison.
+    - [x] Implement Feature: Enhance `face_service.py` to handle verification against stored employee profiles.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Face Verification Integration' (Protocol in workflow.md)
 
 ## Phase 3: Mobile App Core Flow

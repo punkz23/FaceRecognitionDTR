@@ -53,17 +53,12 @@ def mock_db(mocker):
 def test_attendance_submission_success(mock_user, mock_face_service, mock_db, mocker):
     """Test successful attendance submission."""
     # Mock face service
-    mock_face_service.decode_image.return_value = np.zeros((100, 100, 3))
-    mock_face_service.get_face_encodings.return_value = [np.random.rand(128)]
-    mock_face_service.compare_faces.return_value = (True, 0.1)
+    mock_face_service.verify_against_encrypted_storage.return_value = (True, 0.1)
     
     # Mock DB query for face encodings
     mock_encoding_record = mocker.Mock()
     mock_encoding_record.encoding = b"some_encrypted_bytes"
-    mock_db.query().filter().all.return_value = [mock_encoding_record]
-    
-    # Mock encryption/decryption
-    mocker.patch("app.api.v1.endpoints.attendance.DataEncryption.decrypt", return_value=np.random.rand(128).tobytes())
+    mock_db.query.return_value.filter.return_value.all.return_value = [mock_encoding_record]
     
     # Mock models.AttendanceLog to have id and timestamp (normally from DB)
     from datetime import datetime
@@ -94,10 +89,14 @@ def test_attendance_submission_success(mock_user, mock_face_service, mock_db, mo
     finally:
         app.dependency_overrides.clear()
 
-def test_attendance_submission_no_face(mock_user, mock_face_service, mock_db):
+def test_attendance_submission_no_face(mock_user, mock_face_service, mock_db, mocker):
     """Test submission with no face detected."""
-    mock_face_service.decode_image.return_value = np.zeros((100, 100, 3))
-    mock_face_service.get_face_encodings.return_value = []
+    mock_face_service.verify_against_encrypted_storage.side_effect = ValueError("No face detected in image")
+    
+    # Mock DB query for face encodings (must have at least one to reach verification)
+    mock_encoding_record = mocker.Mock()
+    mock_encoding_record.encoding = b"some_encrypted_bytes"
+    mock_db.query.return_value.filter.return_value.all.return_value = [mock_encoding_record]
     
     app.dependency_overrides[deps.get_current_user] = lambda: mock_user
     app.dependency_overrides[deps.get_db] = lambda: mock_db
@@ -117,14 +116,11 @@ def test_attendance_submission_no_face(mock_user, mock_face_service, mock_db):
 
 def test_attendance_submission_face_mismatch(mock_user, mock_face_service, mock_db, mocker):
     """Test submission with face mismatch."""
-    mock_face_service.decode_image.return_value = np.zeros((100, 100, 3))
-    mock_face_service.get_face_encodings.return_value = [np.random.rand(128)]
-    mock_face_service.compare_faces.return_value = (False, 0.6)
+    mock_face_service.verify_against_encrypted_storage.return_value = (False, 0.6)
     
     mock_encoding_record = mocker.Mock()
     mock_encoding_record.encoding = b"some_encrypted_bytes"
-    mock_db.query().filter().all.return_value = [mock_encoding_record]
-    mocker.patch("app.api.v1.endpoints.attendance.DataEncryption.decrypt", return_value=np.random.rand(128).tobytes())
+    mock_db.query.return_value.filter.return_value.all.return_value = [mock_encoding_record]
     
     app.dependency_overrides[deps.get_current_user] = lambda: mock_user
     app.dependency_overrides[deps.get_db] = lambda: mock_db
@@ -144,14 +140,11 @@ def test_attendance_submission_face_mismatch(mock_user, mock_face_service, mock_
 
 def test_attendance_submission_location_mismatch(mock_user, mock_face_service, mock_db, mocker):
     """Test submission with location outside radius."""
-    mock_face_service.decode_image.return_value = np.zeros((100, 100, 3))
-    mock_face_service.get_face_encodings.return_value = [np.random.rand(128)]
-    mock_face_service.compare_faces.return_value = (True, 0.1)
+    mock_face_service.verify_against_encrypted_storage.return_value = (True, 0.1)
     
     mock_encoding_record = mocker.Mock()
     mock_encoding_record.encoding = b"some_encrypted_bytes"
-    mock_db.query().filter().all.return_value = [mock_encoding_record]
-    mocker.patch("app.api.v1.endpoints.attendance.DataEncryption.decrypt", return_value=np.random.rand(128).tobytes())
+    mock_db.query.return_value.filter.return_value.all.return_value = [mock_encoding_record]
     
     # Mock models.AttendanceLog to have id and timestamp (normally from DB)
     from datetime import datetime

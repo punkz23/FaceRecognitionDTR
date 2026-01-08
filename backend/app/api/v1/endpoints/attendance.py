@@ -37,54 +37,36 @@ def create_attendance(
     """
     Create new attendance log with face and location verification.
     """
-    # 1. Decode image from base64
-    img = face_service.decode_image(attendance_in.snapshot_base64)
-    if img is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Could not decode image"
-        )
-
-    # 2. Get face encodings
-    live_encodings = face_service.get_face_encodings(img)
-    if not live_encodings:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="No face detected in image"
-        )
-    live_encoding = live_encodings[0]
-
-    # 3. Biometric Verification
+    # 1. Fetch stored face data
     stored_faces = db.query(models.FaceEncoding).filter(models.FaceEncoding.user_id == current_user.id).all()
     if not stored_faces:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="User has no enrolled face data"
         )
+    stored_encodings = [f.encoding for f in stored_faces]
 
-    match_found = False
-    best_score = 1.0 # Lower is better in face_recognition distance
-    
-    for face_record in stored_faces:
-        try:
-            decrypted_bytes = DataEncryption.decrypt(face_record.encoding)
-            stored_encoding = np.frombuffer(decrypted_bytes, dtype=np.float64)
-            
-            is_match, distance = face_service.compare_faces(stored_encoding, live_encoding)
-            if is_match:
-                match_found = True
-                if distance < best_score:
-                    best_score = distance
-        except Exception:
-            continue
+    # 2. Biometric Verification
+    try:
+        is_match, distance = face_service.verify_against_encrypted_storage(
+            attendance_in.snapshot_base64, 
+            stored_encodings
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
 
-    if not match_found:
+    if not is_match:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Face verification failed"
         )
+    
+    best_score = distance
 
-    # 4. Location Verification (Geofencing)
+    # 3. Location Verification (Geofencing)
     location_verified = False
     if attendance_in.latitude is not None and attendance_in.longitude is not None:
         if current_user.branch and current_user.branch.latitude and current_user.branch.longitude:

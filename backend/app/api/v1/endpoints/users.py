@@ -48,8 +48,8 @@ def create_user(
     db.refresh(db_obj)
     return db_obj
 
-# from app.services.face_service import face_service
-# import numpy as np
+from app.services.face_service import face_service
+import numpy as np
 
 from app.core.encryption import DataEncryption
 

@@ -100,3 +100,38 @@ def test_get_face_encodings(mocker):
     img = np.zeros((100, 100, 3), dtype=np.uint8)
     encodings = face_service.get_face_encodings(img)
     assert len(encodings) == 1
+
+def test_verify_against_encrypted_storage(mocker):
+    # Mock DataEncryption
+    # Since it is imported inside the method, we patch the module where it is defined
+    mock_decrypt = mocker.patch("app.core.encryption.DataEncryption.decrypt")
+    
+    # Create a dummy encoding
+    real_encoding = np.random.rand(128)
+    real_encoding_bytes = real_encoding.tobytes()
+    
+    # Mock decrypt to return the bytes of the encoding
+    mock_decrypt.return_value = real_encoding_bytes
+    
+    # Mock verify_face to avoid complex logic and simply check it's called
+    mocker.patch("app.services.face_service.FaceService.verify_face", return_value=(True, 0.1))
+    
+    # Input
+    encrypted_encodings = [b"encrypted_stuff"]
+    base64_img = "fake_base64"
+    
+    is_match, distance = face_service.verify_against_encrypted_storage(base64_img, encrypted_encodings)
+    
+    assert is_match is True
+    assert distance == 0.1
+    # Verify decrypt was called
+    mock_decrypt.assert_called_once_with(b"encrypted_stuff")
+
+def test_verify_against_encrypted_storage_all_fail_decryption(mocker):
+    # Mock DataEncryption to raise exception
+    mocker.patch("app.core.encryption.DataEncryption.decrypt", side_effect=Exception("Decrypt fail"))
+    
+    encrypted_encodings = [b"encrypted_stuff"]
+    
+    with pytest.raises(ValueError, match="No valid stored encodings found"):
+        face_service.verify_against_encrypted_storage("fake_base64", encrypted_encodings)
