@@ -18,9 +18,9 @@ This plan outlines the steps to implement the automated mobile check-in system.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Face Verification Integration' (Protocol in workflow.md) (cf1fa52)
 
 ## Phase 3: Mobile App Core Flow
-- [ ] Task: Implement Face Capture UI in Flutter
-    - [ ] Write Tests: Create widget tests for the face capture screen.
-    - [ ] Implement Feature: Build the camera interface in the mobile app.
+- [x] Task: Implement Face Capture UI in Flutter (7f2df18)
+    - [x] Write Tests: Create widget tests for the face capture screen.
+    - [x] Implement Feature: Build the camera interface in the mobile app.
 - [ ] Task: Implement Location Validation in Flutter
     - [ ] Write Tests: Create unit tests for location service integration.
     - [ ] Implement Feature: Add GPS coordinate retrieval to the check-in flow.
