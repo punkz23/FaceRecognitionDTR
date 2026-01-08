@@ -3,11 +3,11 @@
 This plan outlines the steps to implement the automated mobile check-in system.
 
 ## Phase 1: Backend Foundation
-- [ ] Task: Define Attendance database model and schema
-    - [ ] Write Tests: Create tests for the Attendance SQLAlchemy model and Pydantic schemas.
-    - [ ] Implement Feature: Update `backend/app/models/models.py` and create schemas.
-- [ ] Task: Create Attendance API endpoint
-    - [ ] Write Tests: Create integration tests for the `POST /attendance` endpoint.
+- [x] Task: Define Attendance database model and schema (97d8d55)
+    - [x] Write Tests: Create tests for the Attendance SQLAlchemy model and Pydantic schemas.
+    - [x] Implement Feature: Update `backend/app/models/models.py` and create schemas.
+- [~] Task: Create Attendance API endpoint
+    - [~] Write Tests: Create integration tests for the `POST /attendance` endpoint.
     - [ ] Implement Feature: Build the FastAPI router and controller for attendance submission.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Backend Foundation' (Protocol in workflow.md)
 

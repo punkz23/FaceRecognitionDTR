@@ -1,5 +1,5 @@
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from uuid import UUID
 from datetime import datetime
 import enum
@@ -24,6 +24,7 @@ class UserBase(BaseModel):
     employee_id: Optional[str] = None
     role: UserRole = UserRole.EMPLOYEE
     department_id: Optional[int] = None
+    branch_id: Optional[int] = None
 
 class UserCreate(UserBase):
     email: EmailStr
@@ -32,11 +33,10 @@ class UserCreate(UserBase):
     full_name: str
 
 class User(UserBase):
+    model_config = ConfigDict(from_attributes=True)
+
     id: UUID
     created_at: datetime
-
-    class Config:
-        from_attributes = True
 
 # Department schemas
 class DepartmentBase(BaseModel):
@@ -46,9 +46,24 @@ class DepartmentCreate(DepartmentBase):
     pass
 
 class Department(DepartmentBase):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
-    class Config:
-        from_attributes = True
+
+# Branch schemas
+class BranchBase(BaseModel):
+    name: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    radius_meters: float = 100.0
+
+class BranchCreate(BranchBase):
+    pass
+
+class Branch(BranchBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
 
 # Schedule schemas
 class ScheduleBase(BaseModel):
@@ -61,28 +76,14 @@ class ScheduleCreate(ScheduleBase):
     pass
 
 class Schedule(ScheduleBase):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
-    class Config:
-        from_attributes = True
 
 # Face Enrollment
 class FaceEnroll(BaseModel):
     image_base64: str
 
 # Attendance schemas
-class AttendanceBase(BaseModel):
-    type: str
+from .attendance import AttendanceBase, AttendanceCreate, Attendance
 
-class AttendanceCreate(AttendanceBase):
-    image_base64: str
-    latitude: Optional[float] = None
-    longitude: Optional[float] = None
-
-class Attendance(AttendanceBase):
-    id: UUID
-    user_id: UUID
-    timestamp: datetime
-    confidence_score: Optional[float]
-    
-    class Config:
-        from_attributes = True

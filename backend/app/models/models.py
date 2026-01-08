@@ -25,10 +25,12 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     role = Column(Enum(UserRole), default=UserRole.EMPLOYEE)
     department_id = Column(Integer, ForeignKey("departments.id"), nullable=True)
+    branch_id = Column(Integer, ForeignKey("branches.id"), nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     department = relationship("Department", back_populates="users")
+    branch = relationship("Branch", back_populates="users")
     attendance_logs = relationship("AttendanceLog", back_populates="user")
     face_encodings = relationship("FaceEncoding", back_populates="user")
 
@@ -39,6 +41,17 @@ class Department(Base):
     name = Column(String, unique=True, nullable=False)
     
     users = relationship("User", back_populates="department")
+
+class Branch(Base):
+    __tablename__ = "branches"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, nullable=False)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
+    radius_meters = Column(Float, default=100.0)
+    
+    users = relationship("User", back_populates="branch")
 
 class Schedule(Base):
     __tablename__ = "schedules"
@@ -68,5 +81,8 @@ class AttendanceLog(Base):
     type = Column(Enum(LogType), nullable=False)
     confidence_score = Column(Float, nullable=True)
     snapshot_path = Column(String, nullable=True)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
+    location_verified = Column(Boolean, default=False)
 
     user = relationship("User", back_populates="attendance_logs")
