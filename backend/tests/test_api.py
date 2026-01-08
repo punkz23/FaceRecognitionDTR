@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 from app.main import app
 from app.core.config import settings
+from app.api import deps
 
 client = TestClient(app)
 
@@ -9,20 +10,28 @@ def test_read_main():
     assert response.status_code == 200
     assert response.json() == {"message": "Welcome to Face Recognition DTR API"}
 
-def test_login_access_token():
-    # 1. First, create a user (mocking this part or assuming seed data)
-    # For this test environment, we'll try to login with a non-existent user to check 400
-    # or we need to setup a test DB. 
-    # For simplicity in this script, we check the structure of the call.
+def test_login_access_token(mocker):
+    # Mock the database query to return None (user not found)
+    mock_db = mocker.Mock()
+    mock_db.query.return_value.filter.return_value.first.return_value = None
+    app.dependency_overrides[deps.get_db] = lambda: mock_db
+
     login_data = {
         "username": "test@example.com",
         "password": "password123"
     }
-    response = client.post(f"{settings.API_V1_STR}/auth/token", data=login_data)
-    # Expect 400 because user doesn't exist in empty DB
-    assert response.status_code == 400 
+    try:
+        response = client.post(f"{settings.API_V1_STR}/auth/token", data=login_data)
+        # Expect 400 because user doesn't exist
+        assert response.status_code == 400
+    finally:
+        app.dependency_overrides.clear()
 
-def test_create_user_unauthorized():
+def test_create_user_unauthorized(mocker):
+    # Mock the database to avoid connection issues
+    mock_db = mocker.Mock()
+    app.dependency_overrides[deps.get_db] = lambda: mock_db
+    
     # Try to create a user without being admin
     data = {
         "email": "newuser@example.com",
@@ -30,5 +39,8 @@ def test_create_user_unauthorized():
         "employee_id": "EMP001",
         "full_name": "New User"
     }
-    response = client.post(f"{settings.API_V1_STR}/users/", json=data)
-    assert response.status_code == 401
+    try:
+        response = client.post(f"{settings.API_V1_STR}/users/", json=data)
+        assert response.status_code == 401
+    finally:
+        app.dependency_overrides.clear()
