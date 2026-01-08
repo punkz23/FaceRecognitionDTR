@@ -49,6 +49,36 @@ class FaceService:
         return results[0], distance[0]
 
     @staticmethod
+    def verify_face(base64_image: str, known_encodings: list, tolerance=0.5):
+        """
+        Verifies a base64 image against a list of known face encodings.
+        Returns (is_match, distance)
+        """
+        image_bgr = face_service.decode_image(base64_image)
+        if image_bgr is None:
+            raise ValueError("Failed to decode image")
+
+        face_encodings = face_service.get_face_encodings(image_bgr)
+        if not face_encodings:
+            raise ValueError("No face detected in image")
+
+        # Use the first face detected
+        current_encoding = face_encodings[0]
+        
+        # Compare against all known encodings and return the best match
+        results = face_recognition.compare_faces(known_encodings, current_encoding, tolerance=tolerance)
+        distances = face_recognition.face_distance(known_encodings, current_encoding)
+        
+        if any(results):
+            # Find the index of the minimum distance among matches
+            match_indices = [i for i, r in enumerate(results) if r]
+            best_match_idx = match_indices[np.argmin([distances[i] for i in match_indices])]
+            return True, distances[best_match_idx]
+        else:
+            # If no matches, return the minimum distance overall
+            return False, np.min(distances) if len(distances) > 0 else 1.0
+
+    @staticmethod
     def check_liveness(image_bgr):
         face_locations = face_recognition.face_locations(image_bgr)
         return len(face_locations) > 0
