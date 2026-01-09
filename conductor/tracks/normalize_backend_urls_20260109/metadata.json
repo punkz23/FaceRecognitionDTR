@@ -1,0 +1,8 @@
+{
+  "track_id": "normalize_backend_urls_20260109",
+  "type": "bug",
+  "status": "new",
+  "created_at": "2026-01-09T16:09:00Z",
+  "updated_at": "2026-01-09T16:09:00Z",
+  "description": "Fix malformed backend URLs (URL:// prefix) and resolve 404 errors by normalizing URL input and auditing path joining."
+}

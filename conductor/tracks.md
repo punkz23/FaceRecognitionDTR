@@ -19,5 +19,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [~] Track: Fix Registration Connection Error
+## [x] Track: Fix Registration Connection Error
 *Link: [./conductor/tracks/fix_registration_connection_20260109/](./conductor/tracks/fix_registration_connection_20260109/)*
+
+---
+
+## [~] Track: Normalize Backend URLs & Fix 404s
+*Link: [./conductor/tracks/normalize_backend_urls_20260109/](./conductor/tracks/normalize_backend_urls_20260109/)*
