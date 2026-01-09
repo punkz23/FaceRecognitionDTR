@@ -49,7 +49,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         try {
           final user = await authRepository.getUserProfile();
           emit(AuthAuthenticated(user));
-        } catch (_) {
+        } catch (e) {
+          print('AppStarted error: $e');
           emit(AuthInitial());
         }
       } else {
@@ -65,7 +66,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthAuthenticated(user));
       } catch (e) {
         print('Auth error: $e');
-        emit(AuthFailure(e.toString()));
+        String errorMsg = e.toString();
+        if (errorMsg.startsWith('Exception: ')) {
+          errorMsg = errorMsg.substring(11);
+        }
+        emit(AuthFailure(errorMsg));
       }
     });
 
