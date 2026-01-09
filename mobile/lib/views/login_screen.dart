@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:facerecognitiondtr/logic/auth_bloc/auth_bloc.dart';
 import 'package:facerecognitiondtr/views/registration_screen.dart';
+import 'package:facerecognitiondtr/views/url_config_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +14,18 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  int _logoTapCount = 0;
+
+  void _onLogoTap() {
+    _logoTapCount++;
+    if (_logoTapCount >= 7) {
+      _logoTapCount = 0;
+      showDialog(
+        context: context,
+        builder: (context) => const UrlConfigDialog(),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +45,12 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset(
-                  'assets/logo.png',
-                  height: 100,
+                GestureDetector(
+                  onTap: _onLogoTap,
+                  child: Image.asset(
+                    'assets/logo.png',
+                    height: 100,
+                  ),
                 ),
                 const SizedBox(height: 24),
                 const Text(
