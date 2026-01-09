@@ -45,7 +45,8 @@ class AuthRepository {
 
       return response.data;
     } catch (e) {
-      throw Exception('Registration failed: $e');
+      final baseUrl = await _configService.getBaseUrl();
+      throw Exception('Registration failed (URL: $baseUrl): $e');
     }
   }
 
@@ -62,7 +63,8 @@ class AuthRepository {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('access_token', token);
     } catch (e) {
-      throw Exception('Login failed: $e');
+      final baseUrl = await _configService.getBaseUrl();
+      throw Exception('Login failed (URL: $baseUrl): $e');
     }
   }
 
@@ -82,7 +84,8 @@ class AuthRepository {
       final response = await _apiClient.dio.get('users/me');
       return response.data;
     } catch (e) {
-      throw Exception('Failed to get user profile: $e');
+      final baseUrl = await _configService.getBaseUrl();
+      throw Exception('Failed to get user profile (URL: $baseUrl): $e');
     }
   }
 }

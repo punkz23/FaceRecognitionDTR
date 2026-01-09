@@ -63,5 +63,28 @@ void main() {
       // We can't easily verify the side effect on dio.options.baseUrl with mocktail unless we mock BaseOptions or verify the getter was called.
       // But verify(() => mockConfigService.getBaseUrl()).called(1) confirms the update logic was triggered.
     });
+
+    test('improved error reporting includes attempted URL', () async {
+      when(() => mockFile.readAsBytes()).thenAnswer((_) async => Uint8List(0));
+      
+      final dioException = DioException(
+        requestOptions: RequestOptions(path: 'auth/register'),
+        type: DioExceptionType.connectionError,
+        message: 'Connection refused',
+      );
+
+      when(() => mockDio.post(any(), data: any(named: 'data'))).thenThrow(dioException);
+
+      expect(
+        () => authRepository.register(
+          email: 'test@test.com',
+          password: 'password',
+          fullName: 'Test User',
+          employeeId: '123',
+          imageFile: mockFile,
+        ),
+        throwsA(predicate((e) => e is Exception && e.toString().contains('http://dynamic-url.com'))),
+      );
+    });
   });
 }
