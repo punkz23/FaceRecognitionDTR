@@ -18,8 +18,8 @@ void main() {
       ),
     );
 
-    // Verify that the title text is present
-    expect(find.text('SafeTime DTR'), findsOneWidget);
+    // Verify that our app name is displayed.
+    expect(find.text('DOFF TimeSafe'), findsOneWidget);
 
     // Verify that email and password fields are present
     expect(find.text('Email'), findsOneWidget);

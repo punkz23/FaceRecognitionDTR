@@ -10,7 +10,7 @@ class SimpleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SafeTime DTR - Simple',
+      title: 'DOFF TimeSafe - Simple',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -44,7 +44,7 @@ class SimpleLoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               const Text(
-                'SafeTime DTR',
+                'DOFF TimeSafe',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 28,

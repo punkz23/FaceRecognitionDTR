@@ -7,7 +7,7 @@ import 'package:facerecognitiondtr/services/auth_repository.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  print('Starting SafeTime DTR app...');
+  print('Starting DOFF TimeSafe app...');
   runApp(const MyApp());
 }
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'SafeTime DTR',
+        title: 'DOFF TimeSafe',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,

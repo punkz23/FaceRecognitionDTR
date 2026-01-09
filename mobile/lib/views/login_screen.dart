@@ -32,14 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Icon(
-                  Icons.face_retouching_natural,
-                  size: 80,
-                  color: Color(0xFF0D47A1),
+                Image.asset(
+                  'assets/logo.png',
+                  height: 100,
                 ),
                 const SizedBox(height: 24),
                 const Text(
-                  'SafeTime DTR',
+                  'DOFF TimeSafe',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 28,
