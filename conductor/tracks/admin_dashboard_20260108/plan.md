@@ -2,7 +2,7 @@
 
 This plan outlines the steps to implement the web-based admin dashboard and the mobile employee registration flow.
 
-## Phase 1: Backend User Lifecycle
+## Phase 1: Backend User Lifecycle [checkpoint: d85f89a]
 - [x] Task: Update User model and schemas for approval status (6b16776)
     - [x] Write Tests: Create tests for the updated User model and status-based logic.
     - [x] Implement Feature: Add `status` field (PENDING, APPROVED, REJECTED) to `User` model and Pydantic schemas.
@@ -12,7 +12,7 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Create Admin Approval APIs (a25b7c0)
     - [x] Write Tests: Create tests for `PATCH /admin/users/{user_id}/status` restricted to admins.
     - [x] Implement Feature: Build the status update endpoints for administrators.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Backend User Lifecycle' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Backend User Lifecycle' (Protocol in workflow.md) (d85f89a)
 
 ## Phase 2: Mobile Registration Flow
 - [ ] Task: Implement Registration Screen in Flutter
