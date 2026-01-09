@@ -34,4 +34,4 @@
 - **Testing:** 
     - Backend: `pytest`, `pytest-mock`, `pytest-cov`
     - Web: `vitest`, `@testing-library/react`
-    - Mobile: `flutter_test`, `mocktail`
+    - Mobile: `flutter_test`, `mocktail`, `bloc_test`
