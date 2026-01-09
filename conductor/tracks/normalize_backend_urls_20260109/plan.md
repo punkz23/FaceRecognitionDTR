@@ -8,7 +8,7 @@
     - [x] Implement Feature: Update `UrlConfigDialog` to show an error if the input looks like the previous malformed `URL://` pattern.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: URL Validation' (Protocol in workflow.md) (175e99a)
 
-## Phase 2: Repository & Client Alignment
+## Phase 2: Repository & Client Alignment [checkpoint: dd1ef74]
 - [x] Task: Audit ApiClient Path Handling (8e944fe)
     - [x] Implement Feature: Update `AuthRepository` and `ApiClient` to use a more robust way of joining paths (e.g., ensuring trailing slashes on base and no leading slashes on segments).
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Repository Alignment' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Repository Alignment' (Protocol in workflow.md) (dd1ef74)
