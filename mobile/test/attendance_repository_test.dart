@@ -41,7 +41,7 @@ void main() {
 
     expect(result, responseData);
     verify(() => mockDio.post(
-      '/attendance/',
+      'attendance/',
       data: any(named: 'data'),
     )).called(1);
   });
