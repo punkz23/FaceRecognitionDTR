@@ -43,6 +43,12 @@ class AuthRepository {
       );
 
       return response.data;
+    } on DioException catch (e) {
+      final baseUrl = await _configService.getBaseUrl();
+      final errorData = e.response?.data;
+      final errorMessage = errorData != null ? errorData.toString() : e.message;
+      print('Registration Error Details: $errorData');
+      throw Exception('Registration failed (URL: $baseUrl): $errorMessage');
     } catch (e) {
       final baseUrl = await _configService.getBaseUrl();
       throw Exception('Registration failed (URL: $baseUrl): $e');
@@ -61,6 +67,12 @@ class AuthRepository {
       final token = response.data['access_token'];
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('access_token', token);
+    } on DioException catch (e) {
+      final baseUrl = await _configService.getBaseUrl();
+      final errorData = e.response?.data;
+      final errorMessage = errorData != null ? errorData.toString() : e.message;
+      print('Login Error Details: $errorData');
+      throw Exception('Login failed (URL: $baseUrl): $errorMessage');
     } catch (e) {
       final baseUrl = await _configService.getBaseUrl();
       throw Exception('Login failed (URL: $baseUrl): $e');
@@ -82,6 +94,12 @@ class AuthRepository {
       await _updateBaseUrl();
       final response = await _apiClient.dio.get('users/me');
       return response.data;
+    } on DioException catch (e) {
+      final baseUrl = await _configService.getBaseUrl();
+      final errorData = e.response?.data;
+      final errorMessage = errorData != null ? errorData.toString() : e.message;
+      print('Get User Profile Error Details: $errorData');
+      throw Exception('Failed to get user profile (URL: $baseUrl): $errorMessage');
     } catch (e) {
       final baseUrl = await _configService.getBaseUrl();
       throw Exception('Failed to get user profile (URL: $baseUrl): $e');
