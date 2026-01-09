@@ -60,4 +60,13 @@ class AuthRepository {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('access_token');
   }
+
+  Future<Map<String, dynamic>> getUserProfile() async {
+    try {
+      final response = await _apiClient.dio.get('users/me');
+      return response.data;
+    } catch (e) {
+      throw Exception('Failed to get user profile: $e');
+    }
+  }
 }

@@ -26,7 +26,13 @@ abstract class AuthState extends Equatable {
 
 class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
-class AuthAuthenticated extends AuthState {}
+class AuthAuthenticated extends AuthState {
+  final Map<String, dynamic> user;
+  AuthAuthenticated(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
 class AuthFailure extends AuthState {
   final String error;
   AuthFailure(this.error);
@@ -40,7 +46,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AppStarted>((event, emit) async {
       final token = await authRepository.getToken();
       if (token != null) {
-        emit(AuthAuthenticated());
+        try {
+          final user = await authRepository.getUserProfile();
+          emit(AuthAuthenticated(user));
+        } catch (_) {
+          emit(AuthInitial());
+        }
       } else {
         emit(AuthInitial());
       }
@@ -50,7 +61,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading());
       try {
         await authRepository.login(event.email, event.password);
-        emit(AuthAuthenticated());
+        final user = await authRepository.getUserProfile();
+        emit(AuthAuthenticated(user));
       } catch (e) {
         print('Auth error: $e');
         emit(AuthFailure(e.toString()));
