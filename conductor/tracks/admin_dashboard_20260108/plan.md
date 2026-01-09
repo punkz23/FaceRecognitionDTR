@@ -3,9 +3,9 @@
 This plan outlines the steps to implement the web-based admin dashboard and the mobile employee registration flow.
 
 ## Phase 1: Backend User Lifecycle
-- [~] Task: Update User model and schemas for approval status
-    - [ ] Write Tests: Create tests for the updated User model and status-based logic.
-    - [ ] Implement Feature: Add `status` field (PENDING, APPROVED, REJECTED) to `User` model and Pydantic schemas.
+- [x] Task: Update User model and schemas for approval status (6b16776)
+    - [x] Write Tests: Create tests for the updated User model and status-based logic.
+    - [x] Implement Feature: Add `status` field (PENDING, APPROVED, REJECTED) to `User` model and Pydantic schemas.
 - [ ] Task: Create Public Registration API
     - [ ] Write Tests: Create integration tests for the public `POST /auth/register` endpoint including face data.
     - [ ] Implement Feature: Build the registration endpoint that handles initial face encoding storage in PENDING state.
