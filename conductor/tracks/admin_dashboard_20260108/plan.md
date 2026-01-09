@@ -48,9 +48,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Build DTR Monitoring Dashboard (35e59d9)
     - [x] Write Tests: Test filtering and status color-coding of logs.
     - [x] Implement Feature: Create the real-time attendance log viewer with location verification status.
-- [~] Task: Build Branch Configuration UI
-    - [ ] Write Tests: Test coordinate and radius updates.
-    - [ ] Implement Feature: Build the branch management interface with map integration.
+- [x] Task: Build Branch Configuration UI (6ceef1c)
+    - [x] Write Tests: Test coordinate and radius updates.
+    - [x] Implement Feature: Build the branch management interface with map integration.
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Attendance & Branch Management' (Protocol in workflow.md)
 
 ## Phase 6: Payroll & Reporting
