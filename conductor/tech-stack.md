@@ -11,6 +11,12 @@
 - **Security:** JWT (python-jose), Password hashing (passlib with bcrypt)
 - **Configuration:** `pydantic-settings` (for environment variable management)
 
+## Web (Admin Dashboard)
+- **Framework:** React (TypeScript)
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS
+- **UI Components:** Shadcn/UI (Radix UI + Lucide Icons)
+
 ## Mobile
 - **Framework:** Flutter (Dart)
 - **UI:** Material Design (with Cupertino icons support)
@@ -27,4 +33,5 @@
 - **Environment Management:** Python venv, `.env` files
 - **Testing:** 
     - Backend: `pytest`, `pytest-mock`, `pytest-cov`
+    - Web: `vitest`, `@testing-library/react`
     - Mobile: `flutter_test`, `mocktail`

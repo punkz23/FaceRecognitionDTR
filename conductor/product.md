@@ -17,5 +17,6 @@ FaceRecognitionDTR
 - **Mobile & Web Ecosystem:**
     - A dedicated **Mobile App** for employees to clock in/out, specifically designed to support distributed branch operations.
     - A centralized **Web Dashboard** for HR to manage records, view real-time data, and handle reporting.
+- **Approval Workflow:** A secure self-registration flow on mobile with centralized administrative approval on the web dashboard before access is granted.
 - **Location Validation:** Integration of **Geo-fencing/Location Services** to ensure employees are physically present at their designated branch or work location when clocking in.
 - **Unified Mobile Check-in:** A seamless flow that combines face capture, location validation, and automatic data synchronization, effectively retiring the manual "selfie + messenger" workflow.
