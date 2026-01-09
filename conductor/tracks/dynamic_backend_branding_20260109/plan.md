@@ -12,9 +12,9 @@
 - [x] Task: Implement URL Persistence Service (627ac38)
     - [x] Write Tests: Test saving/retrieving URL via mock `SharedPreferences`.
     - [x] Implement Feature: Create `ConfigService` for dynamic URL management.
-- [~] Task: Connection Monitoring Logic
-    - [ ] Write Tests: Verify state changes based on health check responses.
-    - [ ] Implement Feature: Build a `ConnectivityBloc` or similar to poll `/api/v1/health`.
+- [x] Task: Connection Monitoring Logic (2f27d3a)
+    - [x] Write Tests: Verify state changes based on health check responses.
+    - [x] Implement Feature: Build a `ConnectivityBloc` or similar to poll `/api/v1/health`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Logic & Connectivity' (Protocol in workflow.md)
 
 ## Phase 3: Developer Tools & Final UI
