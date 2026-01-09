@@ -6,7 +6,7 @@
 - [x] Task: Refactor AuthRepository for Dynamic URL (b886aaa)
     - [x] Write Tests: Create unit tests for `AuthRepository.register` verifying it uses the URL from `ConfigService`.
     - [x] Implement Feature: Update `AuthRepository` to fetch the base URL from `ConfigService` before making the registration request.
-- [~] Task: Improve Network Error Reporting
-    - [ ] Write Tests: Verify that connection errors include the attempted URL in the message.
-    - [ ] Implement Feature: Update the error handling logic in `AuthRepository` to include the base URL in the exception message.
+- [x] Task: Improve Network Error Reporting (21697d2)
+    - [x] Write Tests: Verify that connection errors include the attempted URL in the message.
+    - [x] Implement Feature: Update the error handling logic in `AuthRepository` to include the base URL in the exception message.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Configuration & Repository Fix' (Protocol in workflow.md)
