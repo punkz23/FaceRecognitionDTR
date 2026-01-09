@@ -3,6 +3,7 @@ import LoginPage from './pages/auth/LoginPage';
 import ProtectedLayout from './layouts/ProtectedLayout';
 import ApprovalQueue from './pages/admin/ApprovalQueue';
 import EmployeeManagement from './pages/admin/EmployeeManagement';
+import DTRDashboard from './pages/admin/DTRDashboard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function Dashboard() {
@@ -14,12 +15,16 @@ function Dashboard() {
         <TabsList className="mb-4">
           <TabsTrigger value="approvals">Pending Approvals</TabsTrigger>
           <TabsTrigger value="employees">Employee Management</TabsTrigger>
+          <TabsTrigger value="dtr">DTR Monitoring</TabsTrigger>
         </TabsList>
         <TabsContent value="approvals">
           <ApprovalQueue />
         </TabsContent>
         <TabsContent value="employees">
           <EmployeeManagement />
+        </TabsContent>
+        <TabsContent value="dtr">
+          <DTRDashboard />
         </TabsContent>
       </Tabs>
     </div>
