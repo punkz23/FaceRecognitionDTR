@@ -38,6 +38,9 @@ class UserCreate(UserBase):
     employee_id: str
     full_name: str
 
+class UserRegister(UserCreate):
+    image_base64: str
+
 class User(UserBase):
     model_config = ConfigDict(from_attributes=True)
 

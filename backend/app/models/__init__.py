@@ -1,1 +1,1 @@
-from app.models.models import User, Department, Schedule, AttendanceLog, FaceEncoding, UserRole, LogType
+from app.models.models import User, Department, Schedule, AttendanceLog, FaceEncoding, UserRole, UserStatus, LogType
