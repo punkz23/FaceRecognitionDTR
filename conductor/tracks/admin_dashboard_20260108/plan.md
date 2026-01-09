@@ -14,7 +14,7 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
     - [x] Implement Feature: Build the status update endpoints for administrators.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Backend User Lifecycle' (Protocol in workflow.md) (d85f89a)
 
-## Phase 2: Mobile Registration Flow
+## Phase 2: Mobile Registration Flow [checkpoint: 860a14b]
 - [x] Task: Implement Registration Screen in Flutter (acf698c)
     - [x] Write Tests: Create widget tests for the registration form.
     - [x] Implement Feature: Build the UI for Email, Name, Employee ID, and Password.
@@ -24,7 +24,7 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Implement Restricted "Pending" View (20e755d)
     - [x] Write Tests: Test that "Time In" features are disabled for users with PENDING status.
     - [x] Implement Feature: Update `DashboardScreen` to handle the pending account state.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Mobile Registration Flow' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Mobile Registration Flow' (Protocol in workflow.md) (860a14b)
 
 ## Phase 3: Admin Dashboard Foundation (React)
 - [ ] Task: Scaffold React Project
