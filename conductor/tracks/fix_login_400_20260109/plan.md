@@ -15,7 +15,7 @@
 - [x] Task: Implement Connectivity/Timeout Handling (64ab939)
     - [x] Write Tests: Simulate a network timeout and verify a specific user-friendly message is displayed.
     - [x] Implement Feature: Add `connectTimeout` handling to `ApiClient` or `AuthRepository`.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: UX Resilience' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: UX Resilience' (Protocol in workflow.md) (1239cbc)
 
 ## Phase 3: Registration Audit & Regression Testing
 - [ ] Task: Audit Face Registration Flow
