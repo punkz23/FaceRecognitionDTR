@@ -28,5 +28,31 @@ void main() {
       final url = await configService.getBaseUrl();
       expect(url, equals('http://192.168.253.100:8000'));
     });
+
+    group('URL Normalization', () {
+      test('prepends http:// if protocol is missing', () async {
+        await configService.saveBaseUrl('192.168.253.100:8000');
+        final url = await configService.getBaseUrl();
+        expect(url, equals('http://192.168.253.100:8000'));
+      });
+
+      test('strips malformed URL:// prefix', () async {
+        await configService.saveBaseUrl('URL://192.168.253.100:8000');
+        final url = await configService.getBaseUrl();
+        expect(url, equals('http://192.168.253.100:8000'));
+      });
+
+      test('handles mixed casing and trailing slashes', () async {
+        await configService.saveBaseUrl('HTTP://example.com/');
+        final url = await configService.getBaseUrl();
+        expect(url, equals('http://example.com'));
+      });
+
+      test('preserves https://', () async {
+        await configService.saveBaseUrl('https://secure.com');
+        final url = await configService.getBaseUrl();
+        expect(url, equals('https://secure.com'));
+      });
+    });
   });
 }
