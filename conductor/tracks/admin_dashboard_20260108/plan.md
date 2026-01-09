@@ -53,11 +53,11 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
     - [x] Implement Feature: Build the branch management interface with map integration.
 - [x] Task: Conductor - User Manual Verification 'Phase 5: Attendance & Branch Management' (Protocol in workflow.md) (9517744)
 
-## Phase 6: Payroll & Reporting
+## Phase 6: Payroll & Reporting [checkpoint: 50e1c14]
 - [x] Task: Implement Payroll Calculation Logic (1e6e2a5)
     - [x] Write Tests: Unit tests for hour calculations and overtime rules.
     - [x] Implement Feature: Build the backend service or frontend logic for hour summation.
 - [x] Task: Implement Export Functionality (PDF/Excel) (6772840)
     - [x] Write Tests: Test the generation of report files.
     - [x] Implement Feature: Add buttons to download Payslips and Payroll Summaries in PDF and XLSX formats.
-- [ ] Task: Conductor - User Manual Verification 'Phase 6: Payroll & Reporting' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 6: Payroll & Reporting' (Protocol in workflow.md) (50e1c14)
