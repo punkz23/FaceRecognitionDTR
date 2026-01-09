@@ -15,9 +15,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Backend User Lifecycle' (Protocol in workflow.md) (d85f89a)
 
 ## Phase 2: Mobile Registration Flow
-- [ ] Task: Implement Registration Screen in Flutter
-    - [ ] Write Tests: Create widget tests for the registration form.
-    - [ ] Implement Feature: Build the UI for Email, Name, Employee ID, and Password.
+- [x] Task: Implement Registration Screen in Flutter (acf698c)
+    - [x] Write Tests: Create widget tests for the registration form.
+    - [x] Implement Feature: Build the UI for Email, Name, Employee ID, and Password.
 - [ ] Task: Integrate Face Capture into Registration
     - [ ] Write Tests: Create tests for the registration-specific face capture flow.
     - [ ] Implement Feature: Re-use `FaceCaptureScreen` logic to capture face data during registration.
