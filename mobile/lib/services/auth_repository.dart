@@ -45,9 +45,15 @@ class AuthRepository {
       return response.data;
     } on DioException catch (e) {
       final baseUrl = await _configService.getBaseUrl();
-      final errorData = e.response?.data;
-      final errorMessage = errorData != null ? errorData.toString() : e.message;
-      print('Registration Error Details: $errorData');
+      String errorMessage;
+      if (e.type == DioExceptionType.connectionTimeout || 
+          e.type == DioExceptionType.connectionError) {
+        errorMessage = 'Server is unreachable. Please check your connection or backend URL.';
+      } else {
+        final errorData = e.response?.data;
+        errorMessage = errorData != null ? errorData.toString() : e.message ?? 'Unknown error';
+      }
+      print('Registration Error Details: ${e.response?.data}');
       throw Exception('Registration failed (URL: $baseUrl): $errorMessage');
     } catch (e) {
       final baseUrl = await _configService.getBaseUrl();
@@ -69,9 +75,15 @@ class AuthRepository {
       await prefs.setString('access_token', token);
     } on DioException catch (e) {
       final baseUrl = await _configService.getBaseUrl();
-      final errorData = e.response?.data;
-      final errorMessage = errorData != null ? errorData.toString() : e.message;
-      print('Login Error Details: $errorData');
+      String errorMessage;
+      if (e.type == DioExceptionType.connectionTimeout || 
+          e.type == DioExceptionType.connectionError) {
+        errorMessage = 'Server is unreachable. Please check your connection or backend URL.';
+      } else {
+        final errorData = e.response?.data;
+        errorMessage = errorData != null ? errorData.toString() : e.message ?? 'Unknown error';
+      }
+      print('Login Error Details: ${e.response?.data}');
       throw Exception('Login failed (URL: $baseUrl): $errorMessage');
     } catch (e) {
       final baseUrl = await _configService.getBaseUrl();
@@ -96,9 +108,15 @@ class AuthRepository {
       return response.data;
     } on DioException catch (e) {
       final baseUrl = await _configService.getBaseUrl();
-      final errorData = e.response?.data;
-      final errorMessage = errorData != null ? errorData.toString() : e.message;
-      print('Get User Profile Error Details: $errorData');
+      String errorMessage;
+      if (e.type == DioExceptionType.connectionTimeout || 
+          e.type == DioExceptionType.connectionError) {
+        errorMessage = 'Server is unreachable. Please check your connection or backend URL.';
+      } else {
+        final errorData = e.response?.data;
+        errorMessage = errorData != null ? errorData.toString() : e.message ?? 'Unknown error';
+      }
+      print('Get User Profile Error Details: ${e.response?.data}');
       throw Exception('Failed to get user profile (URL: $baseUrl): $errorMessage');
     } catch (e) {
       final baseUrl = await _configService.getBaseUrl();

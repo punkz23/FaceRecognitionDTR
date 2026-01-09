@@ -81,7 +81,7 @@ void main() {
         () => authRepository.login('test@test.com', 'password'),
         throwsA(predicate((e) => 
           e is Exception && 
-          (e.toString().contains('Connection timed out') || e.toString().contains('unreachable'))
+          e.toString().contains('Server is unreachable')
         )),
       );
     });
