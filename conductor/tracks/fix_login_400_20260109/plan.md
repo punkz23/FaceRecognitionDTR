@@ -1,6 +1,6 @@
 # Plan: Fix Login 400 Bad Request & Verify Registration
 
-## Phase 1: Diagnosis & Verbose Logging
+## Phase 1: Diagnosis & Verbose Logging [checkpoint: 0bb8d2c]
 - [x] Task: Implement Verbose Error Logging in AuthRepository (7cd4c19)
     - [x] Write Tests: Create a test case in `auth_repository_test.dart` that simulates a 400 error and verifies the exception contains the server's data.
     - [x] Implement Feature: Update the `catch` block in `AuthRepository.login` to print/extract `e.response?.data`.
