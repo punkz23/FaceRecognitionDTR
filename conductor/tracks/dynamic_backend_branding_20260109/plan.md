@@ -9,10 +9,10 @@
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Branding & Assets' (Protocol in workflow.md)
 
 ## Phase 2: Logic & Connectivity
-- [ ] Task: Implement URL Persistence Service
-    - [ ] Write Tests: Test saving/retrieving URL via mock `SharedPreferences`.
-    - [ ] Implement Feature: Create `ConfigService` for dynamic URL management.
-- [ ] Task: Connection Monitoring Logic
+- [x] Task: Implement URL Persistence Service (627ac38)
+    - [x] Write Tests: Test saving/retrieving URL via mock `SharedPreferences`.
+    - [x] Implement Feature: Create `ConfigService` for dynamic URL management.
+- [~] Task: Connection Monitoring Logic
     - [ ] Write Tests: Verify state changes based on health check responses.
     - [ ] Implement Feature: Build a `ConnectivityBloc` or similar to poll `/api/v1/health`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Logic & Connectivity' (Protocol in workflow.md)
