@@ -6,9 +6,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Update User model and schemas for approval status (6b16776)
     - [x] Write Tests: Create tests for the updated User model and status-based logic.
     - [x] Implement Feature: Add `status` field (PENDING, APPROVED, REJECTED) to `User` model and Pydantic schemas.
-- [ ] Task: Create Public Registration API
-    - [ ] Write Tests: Create integration tests for the public `POST /auth/register` endpoint including face data.
-    - [ ] Implement Feature: Build the registration endpoint that handles initial face encoding storage in PENDING state.
+- [x] Task: Create Public Registration API (c91a8fc)
+    - [x] Write Tests: Create integration tests for the public `POST /auth/register` endpoint including face data.
+    - [x] Implement Feature: Build the registration endpoint that handles initial face encoding storage in PENDING state.
 - [ ] Task: Create Admin Approval APIs
     - [ ] Write Tests: Create tests for `PATCH /admin/users/{user_id}/status` restricted to admins.
     - [ ] Implement Feature: Build the status update endpoints for administrators.
