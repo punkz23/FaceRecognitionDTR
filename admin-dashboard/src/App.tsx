@@ -1,12 +1,27 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/auth/LoginPage';
 import ProtectedLayout from './layouts/ProtectedLayout';
+import ApprovalQueue from './pages/admin/ApprovalQueue';
+import EmployeeManagement from './pages/admin/EmployeeManagement';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function Dashboard() {
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-      <p>Welcome to the protected admin area.</p>
+    <div className="p-8 max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+      
+      <Tabs defaultValue="approvals" className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="approvals">Pending Approvals</TabsTrigger>
+          <TabsTrigger value="employees">Employee Management</TabsTrigger>
+        </TabsList>
+        <TabsContent value="approvals">
+          <ApprovalQueue />
+        </TabsContent>
+        <TabsContent value="employees">
+          <EmployeeManagement />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
