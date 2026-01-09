@@ -21,9 +21,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Integrate Face Capture into Registration (6b5e338)
     - [x] Write Tests: Create tests for the registration-specific face capture flow.
     - [x] Implement Feature: Re-use `FaceCaptureScreen` logic to capture face data during registration.
-- [ ] Task: Implement Restricted "Pending" View
-    - [ ] Write Tests: Test that "Time In" features are disabled for users with PENDING status.
-    - [ ] Implement Feature: Update `DashboardScreen` to handle the pending account state.
+- [x] Task: Implement Restricted "Pending" View (20e755d)
+    - [x] Write Tests: Test that "Time In" features are disabled for users with PENDING status.
+    - [x] Implement Feature: Update `DashboardScreen` to handle the pending account state.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Mobile Registration Flow' (Protocol in workflow.md)
 
 ## Phase 3: Admin Dashboard Foundation (React)
