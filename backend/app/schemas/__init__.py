@@ -93,6 +93,9 @@ class Schedule(ScheduleBase):
 class FaceEnroll(BaseModel):
     image_base64: str
 
+class UserStatusUpdate(BaseModel):
+    status: UserStatus
+
 # Attendance schemas
 from .attendance import AttendanceBase, AttendanceCreate, Attendance
 

@@ -1,4 +1,5 @@
 from typing import Any, List
+from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app import models, schemas
@@ -47,3 +48,24 @@ def create_schedule(
     db.commit()
     db.refresh(db_obj)
     return db_obj
+
+@router.patch("/users/{user_id}/status", response_model=schemas.User)
+def update_user_status(
+    *,
+    db: Session = Depends(deps.get_db),
+    user_id: UUID,
+    status_in: schemas.UserStatusUpdate,
+    current_user: models.User = Depends(deps.get_current_active_admin),
+) -> Any:
+    """
+    Update user status (e.g., approve or reject a registration).
+    """
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    user.status = status_in.status
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
