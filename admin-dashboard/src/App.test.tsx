@@ -2,9 +2,11 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 
 describe('App', () => {
-  it('renders the headline', () => {
+  it('redirects to login by default', () => {
+    // Clear token just in case
+    localStorage.clear();
     render(<App />);
-    const headline = screen.getByText(/Vite \+ React/i);
-    expect(headline).toBeInTheDocument();
+    // Expect Login Page Title
+    expect(screen.getByText(/Admin Login/i)).toBeInTheDocument();
   });
 });
