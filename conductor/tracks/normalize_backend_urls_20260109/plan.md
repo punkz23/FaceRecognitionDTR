@@ -9,6 +9,6 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: URL Validation' (Protocol in workflow.md) (175e99a)
 
 ## Phase 2: Repository & Client Alignment
-- [ ] Task: Audit ApiClient Path Handling
-    - [ ] Implement Feature: Update `AuthRepository` and `ApiClient` to use a more robust way of joining paths (e.g., ensuring trailing slashes on base and no leading slashes on segments).
+- [x] Task: Audit ApiClient Path Handling (8e944fe)
+    - [x] Implement Feature: Update `AuthRepository` and `ApiClient` to use a more robust way of joining paths (e.g., ensuring trailing slashes on base and no leading slashes on segments).
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Repository Alignment' (Protocol in workflow.md)
