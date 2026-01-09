@@ -18,9 +18,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Implement Registration Screen in Flutter (acf698c)
     - [x] Write Tests: Create widget tests for the registration form.
     - [x] Implement Feature: Build the UI for Email, Name, Employee ID, and Password.
-- [ ] Task: Integrate Face Capture into Registration
-    - [ ] Write Tests: Create tests for the registration-specific face capture flow.
-    - [ ] Implement Feature: Re-use `FaceCaptureScreen` logic to capture face data during registration.
+- [x] Task: Integrate Face Capture into Registration (6b5e338)
+    - [x] Write Tests: Create tests for the registration-specific face capture flow.
+    - [x] Implement Feature: Re-use `FaceCaptureScreen` logic to capture face data during registration.
 - [ ] Task: Implement Restricted "Pending" View
     - [ ] Write Tests: Test that "Time In" features are disabled for users with PENDING status.
     - [ ] Implement Feature: Update `DashboardScreen` to handle the pending account state.
