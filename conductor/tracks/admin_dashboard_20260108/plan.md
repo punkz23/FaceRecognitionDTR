@@ -27,9 +27,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Mobile Registration Flow' (Protocol in workflow.md) (860a14b)
 
 ## Phase 3: Admin Dashboard Foundation (React)
-- [~] Task: Scaffold React Project
-    - [ ] Write Tests: Set up basic testing environment (Vitest/Jest).
-    - [ ] Implement Feature: Initialize React app with Tailwind CSS and Shadcn/UI in a new `admin-dashboard` directory.
+- [x] Task: Scaffold React Project (594c6b6)
+    - [x] Write Tests: Set up basic testing environment (Vitest/Jest).
+    - [x] Implement Feature: Initialize React app with Tailwind CSS and Shadcn/UI in a new `admin-dashboard` directory.
 - [ ] Task: Implement Admin Authentication
     - [ ] Write Tests: Test login redirection and token storage.
     - [ ] Implement Feature: Build the admin login page and secure layout components.
