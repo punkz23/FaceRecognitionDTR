@@ -13,7 +13,7 @@ void main() {
 
     test('getBaseUrl returns default URL when nothing is saved', () async {
       final url = await configService.getBaseUrl();
-      expect(url, equals('http://192.168.1.16:8000'));
+      expect(url, equals('http://192.168.253.100:8000'));
     });
 
     test('saveBaseUrl persists the URL', () async {
@@ -26,7 +26,7 @@ void main() {
       await configService.saveBaseUrl('http://example.com');
       await configService.resetBaseUrl();
       final url = await configService.getBaseUrl();
-      expect(url, equals('http://192.168.1.16:8000'));
+      expect(url, equals('http://192.168.253.100:8000'));
     });
   });
 }
