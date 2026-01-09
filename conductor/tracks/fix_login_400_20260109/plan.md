@@ -1,10 +1,10 @@
 # Plan: Fix Login 400 Bad Request & Verify Registration
 
 ## Phase 1: Diagnosis & Verbose Logging
-- [x] Task: Implement Verbose Error Logging in AuthRepository
+- [x] Task: Implement Verbose Error Logging in AuthRepository (7cd4c19)
     - [x] Write Tests: Create a test case in `auth_repository_test.dart` that simulates a 400 error and verifies the exception contains the server's data.
     - [x] Implement Feature: Update the `catch` block in `AuthRepository.login` to print/extract `e.response?.data`.
-- [x] Task: Audit Endpoint and Headers
+- [x] Task: Audit Endpoint and Headers (7cd4c19)
     - [x] Implement Feature: Confirm correct endpoint (`auth/token`) and set `Content-Type: application/x-www-form-urlencoded`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Diagnosis' (Protocol in workflow.md)
 
