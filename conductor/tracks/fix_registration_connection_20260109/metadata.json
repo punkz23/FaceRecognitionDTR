@@ -1,0 +1,8 @@
+{
+  "track_id": "fix_registration_connection_20260109",
+  "type": "bug",
+  "status": "new",
+  "created_at": "2026-01-09T14:29:00Z",
+  "updated_at": "2026-01-09T14:29:00Z",
+  "description": "Fix 'Connection refused' error during registration by updating default backend IP and ensuring dynamic URL usage in AuthRepository."
+}
