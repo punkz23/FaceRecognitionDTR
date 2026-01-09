@@ -18,9 +18,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: UX Resilience' (Protocol in workflow.md) (1239cbc)
 
 ## Phase 3: Registration Audit & Regression Testing
-- [ ] Task: Audit Face Registration Flow
-    - [ ] Implement Feature: Verify the registration request matches the latest backend schema (multi-part vs JSON).
-    - [ ] Write Tests: Verify `register` method in `AuthRepository` works with mocked success.
+- [~] Task: Audit Face Registration Flow
+    - [x] Implement Feature: Verify the registration request matches the latest backend schema (multi-part vs JSON).
+    - [x] Write Tests: Verify `register` method in `AuthRepository` works with mocked success.
 - [ ] Task: Final End-to-End Verification
     - [ ] Implement Feature: Perform manual login and registration walkthrough.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Registration Audit' (Protocol in workflow.md)
