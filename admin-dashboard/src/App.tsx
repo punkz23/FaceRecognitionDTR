@@ -4,6 +4,7 @@ import ProtectedLayout from './layouts/ProtectedLayout';
 import ApprovalQueue from './pages/admin/ApprovalQueue';
 import EmployeeManagement from './pages/admin/EmployeeManagement';
 import DTRDashboard from './pages/admin/DTRDashboard';
+import BranchManagement from './pages/admin/BranchManagement';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function Dashboard() {
@@ -16,6 +17,7 @@ function Dashboard() {
           <TabsTrigger value="approvals">Pending Approvals</TabsTrigger>
           <TabsTrigger value="employees">Employee Management</TabsTrigger>
           <TabsTrigger value="dtr">DTR Monitoring</TabsTrigger>
+          <TabsTrigger value="branches">Branch Settings</TabsTrigger>
         </TabsList>
         <TabsContent value="approvals">
           <ApprovalQueue />
@@ -25,6 +27,9 @@ function Dashboard() {
         </TabsContent>
         <TabsContent value="dtr">
           <DTRDashboard />
+        </TabsContent>
+        <TabsContent value="branches">
+          <BranchManagement />
         </TabsContent>
       </Tabs>
     </div>

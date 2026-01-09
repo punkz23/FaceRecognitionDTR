@@ -49,6 +49,14 @@ def create_schedule(
     db.refresh(db_obj)
     return db_obj
 
+# Branch Endpoints
+@router.get("/branches", response_model=List[schemas.Branch])
+def read_branches(
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_admin),
+) -> Any:
+    return db.query(models.Branch).all()
+
 @router.patch("/users/{user_id}/status", response_model=schemas.User)
 def update_user_status(
     *,
