@@ -17,7 +17,7 @@
     - [x] Implement Feature: Add `connectTimeout` handling to `ApiClient` or `AuthRepository`.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: UX Resilience' (Protocol in workflow.md) (1239cbc)
 
-## Phase 3: Registration Audit & Regression Testing
+## Phase 3: Registration Audit & Regression Testing [checkpoint: 7326b3c]
 - [x] Task: Audit Face Registration Flow (61372b6)
     - [x] Implement Feature: Verify the registration request matches the latest backend schema (multi-part vs JSON).
     - [x] Write Tests: Verify `register` method in `AuthRepository` works with mocked success.
