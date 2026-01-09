@@ -1,12 +1,12 @@
 # Plan: Dynamic Backend URL, Connection Status & Branding
 
-## Phase 1: Branding & Assets
+## Phase 1: Branding & Assets [checkpoint: e4d1ffb]
 - [x] Task: Update Application Assets (bd1b549)
     - [x] Implement Feature: Copy `doff logo.png` into the project's asset directory and update `pubspec.yaml`.
 - [x] Task: Apply Rebranding to Login Screen (9e139a7)
     - [x] Write Tests: Verify the logo and "DOFF TimeSafe" text are present.
     - [x] Implement Feature: Update `LoginScreen` widgets with the new name and logo asset.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Branding & Assets' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Branding & Assets' (Protocol in workflow.md) (e4d1ffb)
 
 ## Phase 2: Logic & Connectivity [checkpoint: 07aace5]
 - [x] Task: Implement URL Persistence Service (627ac38)
