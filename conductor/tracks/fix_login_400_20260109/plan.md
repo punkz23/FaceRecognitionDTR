@@ -6,7 +6,7 @@
     - [x] Implement Feature: Update the `catch` block in `AuthRepository.login` to print/extract `e.response?.data`.
 - [x] Task: Audit Endpoint and Headers (7cd4c19)
     - [x] Implement Feature: Confirm correct endpoint (`auth/token`) and set `Content-Type: application/x-www-form-urlencoded`.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Diagnosis' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Diagnosis' (Protocol in workflow.md) (b81e775)
 
 ## Phase 2: UX Resilience & UI Fixes
 - [ ] Task: Fix UI Loading State Persistence
