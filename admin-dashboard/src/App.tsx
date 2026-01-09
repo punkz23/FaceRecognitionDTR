@@ -5,6 +5,7 @@ import ApprovalQueue from './pages/admin/ApprovalQueue';
 import EmployeeManagement from './pages/admin/EmployeeManagement';
 import DTRDashboard from './pages/admin/DTRDashboard';
 import BranchManagement from './pages/admin/BranchManagement';
+import PayrollReporting from './pages/admin/PayrollReporting';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function Dashboard() {
@@ -18,6 +19,7 @@ function Dashboard() {
           <TabsTrigger value="employees">Employee Management</TabsTrigger>
           <TabsTrigger value="dtr">DTR Monitoring</TabsTrigger>
           <TabsTrigger value="branches">Branch Settings</TabsTrigger>
+          <TabsTrigger value="payroll">Payroll</TabsTrigger>
         </TabsList>
         <TabsContent value="approvals">
           <ApprovalQueue />
@@ -30,6 +32,9 @@ function Dashboard() {
         </TabsContent>
         <TabsContent value="branches">
           <BranchManagement />
+        </TabsContent>
+        <TabsContent value="payroll">
+          <PayrollReporting />
         </TabsContent>
       </Tabs>
     </div>
