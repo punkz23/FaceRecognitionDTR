@@ -11,6 +11,11 @@ class UserRole(str, enum.Enum):
     ADMIN = "ADMIN"
     EMPLOYEE = "EMPLOYEE"
 
+class UserStatus(str, enum.Enum):
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+
 class LogType(str, enum.Enum):
     CLOCK_IN = "CLOCK_IN"
     CLOCK_OUT = "CLOCK_OUT"
@@ -24,6 +29,7 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     role = Column(Enum(UserRole), default=UserRole.EMPLOYEE)
+    status = Column(Enum(UserStatus), default=UserStatus.PENDING)
     department_id = Column(Integer, ForeignKey("departments.id"), nullable=True)
     branch_id = Column(Integer, ForeignKey("branches.id"), nullable=True)
     is_active = Column(Boolean, default=True)

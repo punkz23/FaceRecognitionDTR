@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:facerecognitiondtr/services/attendance_repository.dart';
 import 'package:facerecognitiondtr/services/location_service.dart';
@@ -15,47 +16,71 @@ class FaceCaptureScreen extends StatefulWidget {
 class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
   CameraController? _controller;
   bool _isProcessing = false;
-  late FaceDetector _faceDetector;
+  String? _errorMessage;
+  FaceDetector? _faceDetector;
   final AttendanceRepository _attendanceRepository = AttendanceRepository();
   final LocationService _locationService = LocationService();
 
   @override
   void initState() {
     super.initState();
-    _faceDetector = FaceDetector(
-      options: FaceDetectorOptions(
-        enableContours: true,
-        enableClassification: true,
-      ),
-    );
+    if (!kIsWeb) {
+      _faceDetector = FaceDetector(
+        options: FaceDetectorOptions(
+          enableContours: true,
+          enableClassification: true,
+        ),
+      );
+    }
     _initializeCamera();
   }
 
   Future<void> _initializeCamera() async {
-    final cameras = await availableCameras();
-    final frontCamera = cameras.firstWhere(
-      (camera) => camera.lensDirection == CameraLensDirection.front,
-    );
+    try {
+      final cameras = await availableCameras();
+      if (cameras.isEmpty) {
+        setState(() => _errorMessage = 'No cameras found');
+        return;
+      }
 
-    _controller = CameraController(
-      frontCamera,
-      ResolutionPreset.medium,
-      enableAudio: false,
-    );
+      CameraDescription? selectedCamera;
+      try {
+        selectedCamera = cameras.firstWhere(
+          (camera) => camera.lensDirection == CameraLensDirection.front,
+        );
+      } catch (_) {
+        selectedCamera = cameras.first;
+      }
 
-    await _controller!.initialize();
-    if (mounted) setState(() {});
+      _controller = CameraController(
+        selectedCamera,
+        ResolutionPreset.medium,
+        enableAudio: false,
+      );
+
+      await _controller!.initialize();
+      if (mounted) setState(() {});
+    } catch (e) {
+      setState(() => _errorMessage = 'Camera error: $e');
+    }
   }
 
   @override
   void dispose() {
     _controller?.dispose();
-    _faceDetector.close();
+    _faceDetector?.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_errorMessage != null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: Center(child: Text(_errorMessage!, style: const TextStyle(color: Colors.red))),
+      );
+    }
+
     if (_controller == null || !_controller!.value.isInitialized) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -118,17 +143,20 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
             try {
               final position = await _locationService.getCurrentLocation();
               final XFile image = await _controller!.takePicture();
-              final inputImage = InputImage.fromFilePath(image.path);
-              final faces = await _faceDetector.processImage(inputImage);
+              
+              if (!kIsWeb) {
+                final inputImage = InputImage.fromFilePath(image.path);
+                final faces = await _faceDetector!.processImage(inputImage);
 
-              if (faces.isEmpty) {
-                if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('No face detected. Please try again.')),
-                  );
+                if (faces.isEmpty) {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('No face detected. Please try again.')),
+                    );
+                  }
+                  setState(() => _isProcessing = false);
+                  return;
                 }
-                setState(() => _isProcessing = false);
-                return;
               }
 
               // Send to API

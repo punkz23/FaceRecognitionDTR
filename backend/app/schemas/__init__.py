@@ -8,6 +8,11 @@ class UserRole(str, enum.Enum):
     ADMIN = "ADMIN"
     EMPLOYEE = "EMPLOYEE"
 
+class UserStatus(str, enum.Enum):
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+
 # Token schemas
 class Token(BaseModel):
     access_token: str
@@ -23,6 +28,7 @@ class UserBase(BaseModel):
     full_name: Optional[str] = None
     employee_id: Optional[str] = None
     role: UserRole = UserRole.EMPLOYEE
+    status: UserStatus = UserStatus.PENDING
     department_id: Optional[int] = None
     branch_id: Optional[int] = None
 

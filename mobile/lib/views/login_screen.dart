@@ -73,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return ElevatedButton(
                       onPressed: () {
+                        print('Login button pressed with email: ${_emailController.text}');
                         context.read<AuthBloc>().add(
                               LoginRequested(
                                 _emailController.text,

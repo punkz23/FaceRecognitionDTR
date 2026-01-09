@@ -8,7 +8,7 @@ class AuthRepository {
   Future<void> login(String email, String password) async {
     try {
       final response = await _apiClient.dio.post(
-        '/auth/token',
+        'auth/token',
         data: {'username': email, 'password': password},
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );

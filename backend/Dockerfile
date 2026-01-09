@@ -7,15 +7,30 @@ ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    cmake \
     build-essential \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     curl \
+    wget \
     && rm -rf /var/lib/apt/lists/*
+
+# Install newer CMake
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.27.7/cmake-3.27.7-linux-x86_64.sh \
+    -q -O /tmp/cmake-install.sh \
+    && chmod u+x /tmp/cmake-install.sh \
+    && mkdir /opt/cmake-3.27.7 \
+    && /tmp/cmake-install.sh --skip-license --prefix=/opt/cmake-3.27.7 \
+    && rm /tmp/cmake-install.sh \
+    && ln -s /opt/cmake-3.27.7/bin/* /usr/local/bin
 
 # Set work directory
 WORKDIR /app
+
+# Upgrade pip first
+RUN pip install --no-cache-dir --upgrade pip
+
+# Install dlib separately from pre-built wheel to avoid CMake issues
+RUN pip install --no-cache-dir dlib==19.24.1
 
 # Install python dependencies
 COPY requirements.txt .

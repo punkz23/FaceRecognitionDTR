@@ -12,7 +12,7 @@ class AttendanceRepository {
       final bytes = await imageFile.readAsBytes();
       final base64Image = base64Encode(bytes);
 
-      final response = await _apiClient.dio.post('/attendance/', data: {
+      final response = await _apiClient.dio.post('attendance/', data: {
         'snapshot_base64': base64Image,
         'type': 'CLOCK_IN',
         'latitude': lat,
@@ -27,7 +27,7 @@ class AttendanceRepository {
 
   Future<List<dynamic>> getHistory() async {
     try {
-      final response = await _apiClient.dio.get('/attendance/history');
+      final response = await _apiClient.dio.get('attendance/history');
       return response.data;
     } catch (e) {
       throw Exception('Failed to fetch history: $e');
