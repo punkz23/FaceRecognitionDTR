@@ -11,3 +11,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## [x] Track: Admin Dashboard and Employee Registration
 *Link: [./conductor/tracks/admin_dashboard_20260108/](./conductor/tracks/admin_dashboard_20260108/)*
+
+---
+
+## [~] Track: Dynamic Backend URL, Connection Status & Branding
+*Link: [./conductor/tracks/dynamic_backend_branding_20260109/](./conductor/tracks/dynamic_backend_branding_20260109/)*

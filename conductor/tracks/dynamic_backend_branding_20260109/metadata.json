@@ -1,0 +1,8 @@
+{
+  "track_id": "dynamic_backend_branding_20260109",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-01-09T13:01:00Z",
+  "updated_at": "2026-01-09T13:01:00Z",
+  "description": "Add feature to change backend address in Flutter app, connection indicator in login, and rebranding to DOFF TimeSafe."
+}
