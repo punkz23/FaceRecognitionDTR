@@ -29,6 +29,13 @@ class _UrlConfigDialogState extends State<UrlConfigDialog> {
 
   Future<void> _saveUrl() async {
     final url = _urlController.text.trim();
+    if (url.startsWith('URL://')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid protocol URL:// detected. Use http:// or https://')),
+      );
+      return;
+    }
+    
     if (url.isEmpty || !url.startsWith('http')) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter a valid URL starting with http/https')),
