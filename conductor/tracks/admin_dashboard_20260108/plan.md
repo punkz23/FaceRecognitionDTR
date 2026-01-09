@@ -36,9 +36,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Admin Dashboard Foundation (React)' (Protocol in workflow.md) (2ba2aff)
 
 ## Phase 4: Admin Approvals & Management
-- [ ] Task: Build Registration Approval Queue
-    - [ ] Write Tests: Test the fetching and rendering of pending users.
-    - [ ] Implement Feature: Create the UI to view, approve, or reject new registrations.
+- [x] Task: Build Registration Approval Queue (18114a8)
+    - [x] Write Tests: Test the fetching and rendering of pending users.
+    - [x] Implement Feature: Create the UI to view, approve, or reject new registrations.
 - [ ] Task: Build Employee Management CRUD
     - [ ] Write Tests: Test employee editing and face enrollment via web.
     - [ ] Implement Feature: Build the tables and forms for full employee record management.
