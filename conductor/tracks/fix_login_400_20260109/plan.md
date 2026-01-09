@@ -12,9 +12,9 @@
 - [x] Task: Fix UI Loading State Persistence (329f92c)
     - [x] Write Tests: Add a widget test for `LoginScreen` that triggers a failed login and verifies the `CircularProgressIndicator` is replaced by the login button.
     - [x] Implement Feature: Ensure `AuthBloc` emits a failure state that the UI reacts to by resetting the loading flag.
-- [ ] Task: Implement Connectivity/Timeout Handling
-    - [ ] Write Tests: Simulate a network timeout and verify a specific user-friendly message is displayed.
-    - [ ] Implement Feature: Add `connectTimeout` handling to `ApiClient` or `AuthRepository`.
+- [x] Task: Implement Connectivity/Timeout Handling (64ab939)
+    - [x] Write Tests: Simulate a network timeout and verify a specific user-friendly message is displayed.
+    - [x] Implement Feature: Add `connectTimeout` handling to `ApiClient` or `AuthRepository`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: UX Resilience' (Protocol in workflow.md)
 
 ## Phase 3: Registration Audit & Regression Testing
