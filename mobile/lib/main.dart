@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:facerecognitiondtr/views/login_screen.dart';
 import 'package:facerecognitiondtr/views/dashboard_screen.dart';
 import 'package:facerecognitiondtr/logic/auth_bloc/auth_bloc.dart';
+import 'package:facerecognitiondtr/logic/connectivity_bloc/connectivity_bloc.dart';
 import 'package:facerecognitiondtr/services/auth_repository.dart';
+import 'package:facerecognitiondtr/services/config_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +22,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthBloc(authRepository: AuthRepository())..add(AppStarted()),
+        ),
+        BlocProvider(
+          create: (context) => ConnectivityBloc(configService: ConfigService()),
         ),
       ],
       child: MaterialApp(
