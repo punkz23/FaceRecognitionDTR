@@ -18,10 +18,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Logic & Connectivity' (Protocol in workflow.md) (07aace5)
 
 ## Phase 3: Developer Tools & Final UI
-- [ ] Task: Build Hidden Settings Dialog
-    - [ ] Write Tests: Verify 7-tap trigger and URL validation.
-    - [ ] Implement Feature: Add gesture detector to logo and build the `UrlConfigDialog`.
-- [ ] Task: Finalize Connection Indicator
+- [x] Task: Build Hidden Settings Dialog (6fad6a4)
+    - [x] Write Tests: Verify 7-tap trigger and URL validation.
+    - [x] Implement Feature: Add gesture detector to logo and build the `UrlConfigDialog`.
+- [~] Task: Finalize Connection Indicator
     - [ ] Write Tests: Verify button disabling and indicator colors.
     - [ ] Implement Feature: Add indicator to Login screen and bind button state.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Developer Tools & Final UI' (Protocol in workflow.md)
