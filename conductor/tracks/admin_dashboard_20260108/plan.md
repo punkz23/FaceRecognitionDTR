@@ -35,14 +35,14 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
     - [x] Implement Feature: Build the admin login page and secure layout components.
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Admin Dashboard Foundation (React)' (Protocol in workflow.md) (2ba2aff)
 
-## Phase 4: Admin Approvals & Management
+## Phase 4: Admin Approvals & Management [checkpoint: d84f885]
 - [x] Task: Build Registration Approval Queue (18114a8)
     - [x] Write Tests: Test the fetching and rendering of pending users.
     - [x] Implement Feature: Create the UI to view, approve, or reject new registrations.
 - [x] Task: Build Employee Management CRUD (59c0249)
     - [x] Write Tests: Test employee editing and face enrollment via web.
     - [x] Implement Feature: Build the tables and forms for full employee record management.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Admin Approvals & Management' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Admin Approvals & Management' (Protocol in workflow.md) (d84f885)
 
 ## Phase 5: Attendance & Branch Management
 - [ ] Task: Build DTR Monitoring Dashboard
