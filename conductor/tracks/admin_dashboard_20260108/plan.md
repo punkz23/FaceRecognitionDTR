@@ -9,9 +9,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Create Public Registration API (c91a8fc)
     - [x] Write Tests: Create integration tests for the public `POST /auth/register` endpoint including face data.
     - [x] Implement Feature: Build the registration endpoint that handles initial face encoding storage in PENDING state.
-- [ ] Task: Create Admin Approval APIs
-    - [ ] Write Tests: Create tests for `PATCH /admin/users/{user_id}/status` restricted to admins.
-    - [ ] Implement Feature: Build the status update endpoints for administrators.
+- [x] Task: Create Admin Approval APIs (a25b7c0)
+    - [x] Write Tests: Create tests for `PATCH /admin/users/{user_id}/status` restricted to admins.
+    - [x] Implement Feature: Build the status update endpoints for administrators.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Backend User Lifecycle' (Protocol in workflow.md)
 
 ## Phase 2: Mobile Registration Flow
