@@ -45,10 +45,10 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Admin Approvals & Management' (Protocol in workflow.md) (d84f885)
 
 ## Phase 5: Attendance & Branch Management
-- [ ] Task: Build DTR Monitoring Dashboard
-    - [ ] Write Tests: Test filtering and status color-coding of logs.
-    - [ ] Implement Feature: Create the real-time attendance log viewer with location verification status.
-- [ ] Task: Build Branch Configuration UI
+- [x] Task: Build DTR Monitoring Dashboard (35e59d9)
+    - [x] Write Tests: Test filtering and status color-coding of logs.
+    - [x] Implement Feature: Create the real-time attendance log viewer with location verification status.
+- [~] Task: Build Branch Configuration UI
     - [ ] Write Tests: Test coordinate and radius updates.
     - [ ] Implement Feature: Build the branch management interface with map integration.
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Attendance & Branch Management' (Protocol in workflow.md)
