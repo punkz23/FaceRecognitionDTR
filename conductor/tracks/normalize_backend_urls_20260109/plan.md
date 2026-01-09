@@ -1,0 +1,14 @@
+# Plan: Normalize Backend URLs & Fix 404s
+
+## Phase 1: URL Validation & Normalization
+- [x] Task: Implement URL Normalization in ConfigService (4027025)
+    - [x] Write Tests: Add unit tests to `config_service_test.dart` for cases like `URL://192...`, `192...`, and `http://192...`.
+    - [x] Implement Feature: Update `ConfigService.saveBaseUrl` to normalize input before saving.
+- [x] Task: Update Settings Dialog Validation (554c262)
+    - [x] Implement Feature: Update `UrlConfigDialog` to show an error if the input looks like the previous malformed `URL://` pattern.
+- [ ] Task: Conductor - User Manual Verification 'Phase 1: URL Validation' (Protocol in workflow.md)
+
+## Phase 2: Repository & Client Alignment
+- [ ] Task: Audit ApiClient Path Handling
+    - [ ] Implement Feature: Update `AuthRepository` and `ApiClient` to use a more robust way of joining paths (e.g., ensuring trailing slashes on base and no leading slashes on segments).
+- [ ] Task: Conductor - User Manual Verification 'Phase 2: Repository Alignment' (Protocol in workflow.md)
