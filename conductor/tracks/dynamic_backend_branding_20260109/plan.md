@@ -3,9 +3,9 @@
 ## Phase 1: Branding & Assets
 - [x] Task: Update Application Assets (bd1b549)
     - [x] Implement Feature: Copy `doff logo.png` into the project's asset directory and update `pubspec.yaml`.
-- [ ] Task: Apply Rebranding to Login Screen
-    - [ ] Write Tests: Verify the logo and "DOFF TimeSafe" text are present.
-    - [ ] Implement Feature: Update `LoginScreen` widgets with the new name and logo asset.
+- [x] Task: Apply Rebranding to Login Screen (9e139a7)
+    - [x] Write Tests: Verify the logo and "DOFF TimeSafe" text are present.
+    - [x] Implement Feature: Update `LoginScreen` widgets with the new name and logo asset.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Branding & Assets' (Protocol in workflow.md)
 
 ## Phase 2: Logic & Connectivity
