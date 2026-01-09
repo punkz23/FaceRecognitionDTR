@@ -8,7 +8,7 @@
     - [x] Implement Feature: Confirm correct endpoint (`auth/token`) and set `Content-Type: application/x-www-form-urlencoded`.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Diagnosis' (Protocol in workflow.md) (b81e775)
 
-## Phase 2: UX Resilience & UI Fixes
+## Phase 2: UX Resilience & UI Fixes [checkpoint: 07a3c0d]
 - [x] Task: Fix UI Loading State Persistence (329f92c)
     - [x] Write Tests: Add a widget test for `LoginScreen` that triggers a failed login and verifies the `CircularProgressIndicator` is replaced by the login button.
     - [x] Implement Feature: Ensure `AuthBloc` emits a failure state that the UI reacts to by resetting the loading flag.
