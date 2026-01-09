@@ -29,6 +29,7 @@ void main() {
 
       when(() => mockConfigService.getBaseUrl()).thenAnswer((_) async => 'http://dynamic-url.com');
       when(() => mockApiClient.dio).thenReturn(mockDio);
+      when(() => mockApiClient.updateBaseUrl()).thenAnswer((_) async => {});
       // Mock dio.options
       when(() => mockDio.options).thenReturn(BaseOptions());
       
@@ -58,10 +59,8 @@ void main() {
         imageFile: mockFile,
       );
 
-      // Verify that the base URL was set on the Dio instance
-      verify(() => mockConfigService.getBaseUrl()).called(1);
-      // We can't easily verify the side effect on dio.options.baseUrl with mocktail unless we mock BaseOptions or verify the getter was called.
-      // But verify(() => mockConfigService.getBaseUrl()).called(1) confirms the update logic was triggered.
+      // Verify that the base URL update was triggered
+      verify(() => mockApiClient.updateBaseUrl()).called(1);
     });
 
     test('improved error reporting includes attempted URL', () async {

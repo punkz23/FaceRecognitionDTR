@@ -7,8 +7,13 @@ class AttendanceRepository {
 
   AttendanceRepository({ApiClient? apiClient}) : _apiClient = apiClient ?? ApiClient();
 
+  Future<void> _updateBaseUrl() async {
+    await _apiClient.updateBaseUrl();
+  }
+
   Future<Map<String, dynamic>> clockIn(File imageFile, double? lat, double? long) async {
     try {
+      await _updateBaseUrl();
       final bytes = await imageFile.readAsBytes();
       final base64Image = base64Encode(bytes);
 
@@ -27,6 +32,7 @@ class AttendanceRepository {
 
   Future<List<dynamic>> getHistory() async {
     try {
+      await _updateBaseUrl();
       final response = await _apiClient.dio.get('attendance/history');
       return response.data;
     } catch (e) {

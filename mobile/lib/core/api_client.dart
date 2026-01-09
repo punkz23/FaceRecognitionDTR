@@ -1,18 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:facerecognitiondtr/core/security_config.dart';
+import 'package:facerecognitiondtr/services/config_service.dart';
 
 class ApiClient {
   final Dio _dio;
+  final ConfigService _configService = ConfigService();
+  
   // Use different URLs for different platforms
-  static const String baseUrl = String.fromEnvironment(
+  static const String defaultBaseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://localhost:8000/api/v1/',
+    defaultValue: 'http://localhost:8000',
   );
 
   ApiClient()
       : _dio = Dio(BaseOptions(
-          baseUrl: baseUrl,
+          baseUrl: '$defaultBaseUrl/api/v1/',
           connectTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),
           contentType: 'application/json',
@@ -35,6 +38,15 @@ class ApiClient {
         return handler.next(e);
       },
     ));
+  }
+
+  Future<void> updateBaseUrl() async {
+    final baseUrl = await _configService.getBaseUrl();
+    // Ensure robust joining: remove trailing slashes from base and add /api/v1/
+    String sanitizedBase = baseUrl.endsWith('/') 
+        ? baseUrl.substring(0, baseUrl.length - 1) 
+        : baseUrl;
+    _dio.options.baseUrl = '$sanitizedBase/api/v1/';
   }
 
   Dio get dio => _dio;

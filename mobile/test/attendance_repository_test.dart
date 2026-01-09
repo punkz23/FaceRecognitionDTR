@@ -19,6 +19,7 @@ void main() {
     mockApiClient = MockApiClient();
     mockDio = MockDio();
     when(() => mockApiClient.dio).thenReturn(mockDio);
+    when(() => mockApiClient.updateBaseUrl()).thenAnswer((_) async => {});
     repository = AttendanceRepository(apiClient: mockApiClient);
   });
 

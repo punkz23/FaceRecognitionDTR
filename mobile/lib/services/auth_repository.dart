@@ -16,8 +16,7 @@ class AuthRepository {
         _configService = configService ?? ConfigService();
 
   Future<void> _updateBaseUrl() async {
-    final baseUrl = await _configService.getBaseUrl();
-    _apiClient.dio.options.baseUrl = '$baseUrl/api/v1/';
+    await _apiClient.updateBaseUrl();
   }
 
   Future<Map<String, dynamic>> register({
