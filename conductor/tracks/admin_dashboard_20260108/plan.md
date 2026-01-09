@@ -39,9 +39,9 @@ This plan outlines the steps to implement the web-based admin dashboard and the 
 - [x] Task: Build Registration Approval Queue (18114a8)
     - [x] Write Tests: Test the fetching and rendering of pending users.
     - [x] Implement Feature: Create the UI to view, approve, or reject new registrations.
-- [ ] Task: Build Employee Management CRUD
-    - [ ] Write Tests: Test employee editing and face enrollment via web.
-    - [ ] Implement Feature: Build the tables and forms for full employee record management.
+- [x] Task: Build Employee Management CRUD (59c0249)
+    - [x] Write Tests: Test employee editing and face enrollment via web.
+    - [x] Implement Feature: Build the tables and forms for full employee record management.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Admin Approvals & Management' (Protocol in workflow.md)
 
 ## Phase 5: Attendance & Branch Management
