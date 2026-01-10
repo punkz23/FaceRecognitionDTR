@@ -29,14 +29,14 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
     - [x] Implement Feature: Add rejection logic and email notification with reason.
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Enhanced Approval & Rejection Logic' (Protocol in workflow.md) (016474c)
 
-## Phase 4: Strict Location Validation [checkpoint: ]
+## Phase 4: Strict Location Validation [checkpoint: 8a58fe6]
 - [x] Task: Implement Distance Calculation Logic (4ecced1)
     - [x] Write Tests: Test Haversine formula (or similar) in a utility function.
     - [x] Implement Feature: Create `backend/app/core/location_utils.py`.
 - [x] Task: Integrate Location Check in Attendance API (96346f4)
     - [x] Write Tests: Test `POST /attendance` with coordinates inside and outside the geofence.
     - [x] Implement Feature: Update `backend/app/api/v1/endpoints/attendance.py` to validate location against the user's assigned branch.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Strict Location Validation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Strict Location Validation' (Protocol in workflow.md) (8a58fe6)
 
 ## Phase 5: Admin Dashboard - Branch UI [checkpoint: ]
 - [ ] Task: Build Branch Management Pages
