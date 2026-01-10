@@ -5,27 +5,10 @@ from app import models, schemas
 from app.api import deps
 from app.services.face_service import face_service
 from app.core.encryption import DataEncryption
+from app.core.location_utils import calculate_distance
 import numpy as np
-import math
 
 router = APIRouter()
-
-def calculate_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    """
-    Calculate the great circle distance between two points 
-    on the earth (specified in decimal degrees)
-    """
-    # radius of the earth in meters
-    R = 6371000
-    
-    phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dlambda = math.radians(lon2 - lon1)
-    
-    a = math.sin(dphi / 2)**2 + \
-        math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2)**2
-    
-    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
 @router.post("/", response_model=schemas.Attendance)
 def create_attendance(
@@ -66,18 +49,39 @@ def create_attendance(
     
     best_score = distance
 
-    # 3. Location Verification (Geofencing)
-    location_verified = False
-    if attendance_in.latitude is not None and attendance_in.longitude is not None:
-        if current_user.branch and current_user.branch.latitude and current_user.branch.longitude:
-            dist = calculate_distance(
-                attendance_in.latitude,
-                attendance_in.longitude,
-                current_user.branch.latitude,
-                current_user.branch.longitude
-            )
-            if dist <= current_user.branch.radius_meters:
-                location_verified = True
+    # 3. Location Verification (Geofencing) - Strict Enforcement
+    if attendance_in.latitude is None or attendance_in.longitude is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Location coordinates are required."
+        )
+
+    if not current_user.branch:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User has no branch assigned. Please contact your administrator."
+        )
+
+    if not current_user.branch.latitude or not current_user.branch.longitude:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"Branch '{current_user.branch.name}' has no geofence configured."
+        )
+
+    dist = calculate_distance(
+        attendance_in.latitude,
+        attendance_in.longitude,
+        current_user.branch.latitude,
+        current_user.branch.longitude
+    )
+    
+    if dist > current_user.branch.radius_meters:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"You are outside the allowed area for your assigned branch ({current_user.branch.name})."
+        )
+    
+    location_verified = True
     
     # 5. Create Attendance Log
     db_obj = models.AttendanceLog(
@@ -92,6 +96,10 @@ def create_attendance(
     db.add(db_obj)
     db.commit()
     db.refresh(db_obj)
+    
+    # Ensure attributes are loaded for response
+    _ = db_obj.id
+    _ = db_obj.timestamp
     
     return db_obj
 
