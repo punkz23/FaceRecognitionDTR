@@ -20,6 +20,7 @@ class MockUser:
 
 class MockBranch:
     def __init__(self, latitude, longitude, radius_meters):
+        self.name = "Test Branch"
         self.latitude = latitude
         self.longitude = longitude
         self.radius_meters = radius_meters
@@ -103,9 +104,8 @@ def test_create_attendance_wrong_location(mocker):
     response = client.post("/api/v1/attendance/", json=data)
     
     # 3. Verify
-    assert response.status_code == 200
-    res_data = response.json()
-    assert res_data["location_verified"] is False
+    assert response.status_code == 403
+    assert "outside the allowed area" in response.json()["detail"]
     
     app.dependency_overrides = {}
 

@@ -34,6 +34,7 @@ class MockUser:
 
 class MockBranch:
     def __init__(self):
+        self.name = "Test Branch"
         self.latitude = 14.5995
         self.longitude = 120.9842
         self.radius_meters = 100.0
@@ -168,8 +169,7 @@ def test_attendance_submission_location_mismatch(mock_user, mock_face_service, m
     }
     try:
         response = client.post(f"{settings.API_V1_STR}/attendance/", json=data)
-        assert response.status_code == 200
-        res_data = response.json()
-        assert res_data["location_verified"] is False
+        assert response.status_code == 403
+        assert "outside the allowed area" in response.json()["detail"]
     finally:
         app.dependency_overrides.clear()
