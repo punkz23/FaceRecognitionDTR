@@ -71,6 +71,10 @@ class BranchBase(BaseModel):
 class BranchCreate(BranchBase):
     pass
 
+class BranchUpdate(BranchBase):
+    name: Optional[str] = None
+    radius_meters: Optional[float] = None
+
 class Branch(BranchBase):
     model_config = ConfigDict(from_attributes=True)
 
