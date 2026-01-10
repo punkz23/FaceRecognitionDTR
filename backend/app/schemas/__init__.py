@@ -31,6 +31,7 @@ class UserBase(BaseModel):
     status: UserStatus = UserStatus.PENDING
     department_id: Optional[int] = None
     branch_id: Optional[int] = None
+    rejection_reason: Optional[str] = None
 
 class UserCreate(UserBase):
     email: EmailStr
@@ -62,6 +63,7 @@ class Department(DepartmentBase):
 # Branch schemas
 class BranchBase(BaseModel):
     name: str
+    address: Optional[str] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
     radius_meters: float = 100.0
@@ -95,6 +97,8 @@ class FaceEnroll(BaseModel):
 
 class UserStatusUpdate(BaseModel):
     status: UserStatus
+    rejection_reason: Optional[str] = None
+    branch_id: Optional[int] = None
 
 # Attendance schemas
 from .attendance import AttendanceBase, AttendanceCreate, Attendance
