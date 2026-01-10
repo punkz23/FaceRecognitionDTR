@@ -4,17 +4,17 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
 
 ## Phase 1: Data Model & Schema Updates [checkpoint: 0ec8a8a]
 - [x] Task: Update User and Branch Models (0631683)
-    - [ ] Write Tests: Create tests to verify the new fields (`User.rejection_reason` and `Branch.address`).
-    - [ ] Implement Feature: Update `backend/app/models/models.py` with the new fields.
+    - [x] Write Tests: Create tests to verify the new fields (`User.rejection_reason` and `Branch.address`).
+    - [x] Implement Feature: Update `backend/app/models/models.py` with the new fields.
 - [x] Task: Update Pydantic Schemas (897920a)
-    - [ ] Write Tests: Create tests for updated Branch and User schemas.
-    - [ ] Implement Feature: Update `backend/app/schemas/` for Branch (CRUD) and User (status updates).
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Data Model & Schema Updates' (Protocol in workflow.md)
+    - [x] Write Tests: Create tests for updated Branch and User schemas.
+    - [x] Implement Feature: Update `backend/app/schemas/` for Branch (CRUD) and User (status updates).
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Data Model & Schema Updates' (Protocol in workflow.md) (0ec8a8a)
 
 ## Phase 2: Branch Management API [checkpoint: ]
-- [ ] Task: Implement Branch CRUD Endpoints
-    - [ ] Write Tests: Create integration tests for `POST`, `GET`, `PATCH`, and `DELETE` /branches.
-    - [ ] Implement Feature: Create `backend/app/api/v1/endpoints/branches.py` and register it in `api_router.py`.
+- [~] Task: Implement Branch CRUD Endpoints
+    - [~] Write Tests: Create integration tests for `POST`, `GET`, `PATCH`, and `DELETE` /branches.
+    - [~] Implement Feature: Create `backend/app/api/v1/endpoints/branches.py` and register it in `api_router.py`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Branch Management API' (Protocol in workflow.md)
 
 ## Phase 3: Enhanced Approval & Rejection Logic [checkpoint: ]
