@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:facerecognitiondtr/services/location_service.dart';
 
-class MockGeolocatorWrapper extends Mock implements GeolocatorWrapper {}
+class MockGeolocatorWrapper extends Mock implements GeolocatorWrapper {}     
 
 void main() {
   late LocationService locationService;
@@ -38,22 +38,18 @@ void main() {
     verify(() => mockWrapper.getCurrentPosition()).called(1);
   });
 
-  test('getCurrentLocation returns null when service disabled', () async {
+  test('getCurrentLocation throws LocationServiceDisabledException when service disabled', () async {   
     when(() => mockWrapper.isLocationServiceEnabled()).thenAnswer((_) async => false);
 
-    final result = await locationService.getCurrentLocation();
-
-    expect(result, isNull);
+    expect(() => locationService.getCurrentLocation(), throwsA(isA<LocationServiceDisabledException>()));
     verifyNever(() => mockWrapper.getCurrentPosition());
   });
 
-  test('getCurrentLocation returns null when permission denied', () async {
+  test('getCurrentLocation throws exception when permission denied', () async {  
     when(() => mockWrapper.isLocationServiceEnabled()).thenAnswer((_) async => true);
     when(() => mockWrapper.checkPermission()).thenAnswer((_) async => LocationPermission.denied);
     when(() => mockWrapper.requestPermission()).thenAnswer((_) async => LocationPermission.denied);
 
-    final result = await locationService.getCurrentLocation();
-
-    expect(result, isNull);
+    expect(() => locationService.getCurrentLocation(), throwsA(isA<Exception>()));
   });
 }

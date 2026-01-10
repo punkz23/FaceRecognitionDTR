@@ -25,6 +25,9 @@ def login_access_token(
         raise HTTPException(status_code=400, detail="Incorrect email or password")
     elif not user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
+    elif user.status == models.UserStatus.REJECTED:
+        reason = user.rejection_reason or "No reason provided."
+        raise HTTPException(status_code=400, detail=f"Account rejected: {reason}")
     elif user.status != models.UserStatus.APPROVED:
         raise HTTPException(status_code=400, detail="Account is not approved yet")
     

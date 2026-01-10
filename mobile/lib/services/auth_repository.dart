@@ -89,7 +89,11 @@ class AuthRepository {
         errorMessage = 'Server is unreachable. Please check your connection or backend URL.';
       } else {
         final errorData = e.response?.data;
-        errorMessage = errorData != null ? errorData.toString() : e.message ?? 'Unknown error';
+        if (errorData is Map && errorData.containsKey('detail')) {
+          errorMessage = errorData['detail'];
+        } else {
+          errorMessage = errorData != null ? errorData.toString() : e.message ?? 'Unknown error';
+        }
       }
       print('Login Error Details: ${e.response?.data}');
       throw Exception('Login failed (URL: $baseUrl): $errorMessage');

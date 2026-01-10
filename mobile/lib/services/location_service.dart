@@ -18,19 +18,19 @@ class LocationService {
 
     serviceEnabled = await _wrapper.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return null;
+      throw const LocationServiceDisabledException();
     }
 
     permission = await _wrapper.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await _wrapper.requestPermission();
       if (permission == LocationPermission.denied) {
-        return null;
+        throw Exception('Location permissions are denied');
       }
     }
     
     if (permission == LocationPermission.deniedForever) {
-      return null;
+      throw Exception('Location permissions are permanently denied, we cannot request permissions.');
     } 
 
     return await _wrapper.getCurrentPosition();

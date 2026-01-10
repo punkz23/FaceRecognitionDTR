@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:facerecognitiondtr/services/attendance_repository.dart';
 import 'package:facerecognitiondtr/services/location_service.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:dio/dio.dart';
 
 class FaceCaptureScreen extends StatefulWidget {
   const FaceCaptureScreen({super.key});
@@ -173,6 +175,44 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
                 );
                 Navigator.of(context).pop();
               }
+            } on LocationServiceDisabledException {
+              if (mounted) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('GPS Disabled'),
+                    content: const Text('Please enable location services (GPS) to record your attendance.'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Geolocator.openLocationSettings();
+                        },
+                        child: const Text('Open Settings'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              setState(() => _isProcessing = false);
+            } on DioException catch (e) {
+              String errorMsg = 'Failed to record attendance.';
+              if (e.response?.statusCode == 403) {
+                final detail = e.response?.data?['detail'];
+                errorMsg = detail ?? 'You are not authorized or outside the allowed branch area.';
+              } else if (e.response?.data != null) {
+                errorMsg = e.response?.data['detail'] ?? e.message;
+              }
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(errorMsg), backgroundColor: Colors.red),
+                );
+              }
+              setState(() => _isProcessing = false);
             } catch (e) {
               if (mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
