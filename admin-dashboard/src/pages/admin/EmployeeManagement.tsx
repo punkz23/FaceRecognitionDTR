@@ -16,10 +16,20 @@ export default function EmployeeManagement() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const getHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+  };
+
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/v1/users/');
+      const response = await fetch('/api/v1/users/', {
+        headers: getHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setUsers(data);

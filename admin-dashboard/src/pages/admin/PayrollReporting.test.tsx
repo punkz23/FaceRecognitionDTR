@@ -8,7 +8,10 @@ describe('PayrollReporting', () => {
       { id: '1', full_name: 'John Doe', total_hours: 45.5, estimated_pay: 22750 }
     ];
 
-    global.fetch = vi.fn().mockResolvedValue({
+    const token = 'fake-token';
+    localStorage.setItem('token', token);
+
+    window.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockPayroll),
     });
@@ -20,6 +23,13 @@ describe('PayrollReporting', () => {
     await waitFor(() => {
       expect(screen.getByText('John Doe')).toBeInTheDocument();
       expect(screen.getByText(/45\.5/)).toBeInTheDocument();
+    });
+
+    expect(window.fetch).toHaveBeenCalledWith('/api/v1/admin/payroll', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
     });
 
     expect(screen.getByRole('button', { name: /export csv/i })).toBeInTheDocument();

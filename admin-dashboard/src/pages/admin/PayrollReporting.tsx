@@ -14,11 +14,21 @@ export default function PayrollReporting() {
   const [data, setData] = useState<PayrollSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const getHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+  };
+
   const fetchPayroll = async () => {
     setLoading(true);
     try {
       // In a real implementation, this would call a dedicated payroll endpoint
-      const response = await fetch('/api/v1/admin/payroll'); 
+      const response = await fetch('/api/v1/admin/payroll', {
+        headers: getHeaders(),
+      }); 
       if (response.ok) {
         const result = await response.json();
         setData(result);

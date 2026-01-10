@@ -18,12 +18,22 @@ export default function DTRDashboard() {
   const [logs, setLogs] = useState<AttendanceLog[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const getHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+  };
+
   const fetchLogs = async () => {
     setLoading(true);
     try {
       // Assuming there's an admin endpoint to see all logs, or we use a general one for now
       // In a real implementation, we'd have /api/v1/admin/attendance
-      const response = await fetch('/api/v1/attendance/history'); 
+      const response = await fetch('/api/v1/attendance/history', {
+        headers: getHeaders(),
+      }); 
       if (response.ok) {
         const data = await response.json();
         setLogs(data);

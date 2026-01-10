@@ -16,7 +16,10 @@ describe('DTRDashboard', () => {
       }
     ];
 
-    global.fetch = vi.fn().mockResolvedValue({
+    const token = 'fake-token';
+    localStorage.setItem('token', token);
+
+    window.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockLogs),
     });
@@ -28,6 +31,13 @@ describe('DTRDashboard', () => {
     await waitFor(() => {
       expect(screen.getByText('John Doe')).toBeInTheDocument();
       expect(screen.getByText('TIME_IN')).toBeInTheDocument();
+    });
+
+    expect(window.fetch).toHaveBeenCalledWith('/api/v1/attendance/history', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
     });
 
     expect(screen.getByText(/Verified/i)).toBeInTheDocument();
