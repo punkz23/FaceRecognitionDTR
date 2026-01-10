@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app import models, schemas
 from app.api import deps
+from app.services.email_service import email_service
 
 router = APIRouter()
 
@@ -67,12 +68,34 @@ def update_user_status(
 ) -> Any:
     """
     Update user status (e.g., approve or reject a registration).
+    Includes branch assignment and email notification.
     """
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
     user.status = status_in.status
+    
+    # Handle branch assignment on approval
+    if status_in.status == models.UserStatus.APPROVED:
+        if not status_in.branch_id:
+            raise HTTPException(status_code=400, detail="Branch assignment is required for approval.")
+        
+        branch = db.query(models.Branch).filter(models.Branch.id == status_in.branch_id).first()
+        if not branch:
+            raise HTTPException(status_code=404, detail="Branch not found.")
+        
+        user.branch_id = branch.id
+        email_service.send_approval_email(user.email, user.full_name, branch.name)
+    
+    # Handle rejection reason
+    elif status_in.status == models.UserStatus.REJECTED:
+        if not status_in.rejection_reason:
+            raise HTTPException(status_code=400, detail="Rejection reason is required.")
+        
+        user.rejection_reason = status_in.rejection_reason
+        email_service.send_rejection_email(user.email, user.full_name, user.rejection_reason)
+
     db.add(user)
     db.commit()
     db.refresh(user)
