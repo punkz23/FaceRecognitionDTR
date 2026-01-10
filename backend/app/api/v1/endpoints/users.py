@@ -61,6 +61,8 @@ def create_user(
 
 from app.services.face_service import face_service
 import numpy as np
+import os
+import base64
 
 from app.core.encryption import DataEncryption
 
@@ -95,10 +97,27 @@ def enroll_face(
     encoding_bytes = encodings[0].tobytes()
     encrypted_encoding = DataEncryption.encrypt(encoding_bytes)
 
+    # Save image to disk
+    file_path = f"static/faces/{user_id}.jpg"
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    
+    # Remove header if present (e.g., "data:image/jpeg;base64,")
+    img_data = enroll_data.image_base64
+    if "," in img_data:
+        img_data = img_data.split(",")[1]
+    
+    try:
+        with open(file_path, "wb") as f:
+            f.write(base64.b64decode(img_data))
+    except Exception as e:
+        print(f"Error saving face image: {e}")
+        # Continue even if image save fails, but best effort
+
     # Save to DB
     db_face = models.FaceEncoding(
         user_id=user.id,
-        encoding=encrypted_encoding
+        encoding=encrypted_encoding,
+        image_path=f"/{file_path}"
     )
     db.add(db_face)
     db.commit()

@@ -47,6 +47,7 @@ class User(UserBase):
 
     id: UUID
     created_at: datetime
+    face_image_url: Optional[str] = None
 
 # Department schemas
 class DepartmentBase(BaseModel):

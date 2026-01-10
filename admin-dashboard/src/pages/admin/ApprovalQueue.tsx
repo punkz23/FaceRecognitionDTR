@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Check, X, RefreshCw, User as UserIcon } from "lucide-react";
 import {
   Dialog,
@@ -20,6 +19,7 @@ interface User {
   email: string;
   status: string;
   employee_id: string;
+  face_image_url?: string;
 }
 
 interface Branch {
@@ -43,10 +43,20 @@ export default function ApprovalQueue() {
   const [selectedBranchId, setSelectedBranch] = useState<string>("");
   const [rejectionReason, setRejectionReason] = useState("");
 
+  const getHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+  };
+
   const fetchPendingUsers = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/v1/users/');
+      const response = await fetch('/api/v1/users/', {
+        headers: getHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setUsers(data.filter((u: User) => u.status === 'PENDING'));
@@ -60,7 +70,9 @@ export default function ApprovalQueue() {
 
   const fetchBranches = async () => {
     try {
-      const response = await fetch('/api/v1/branches/');
+      const response = await fetch('/api/v1/branches/', {
+        headers: getHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setBranches(data);
@@ -97,14 +109,9 @@ export default function ApprovalQueue() {
     }
 
     try {
-      // 1. Update name/ID if changed (using general users endpoint if available, 
-      // or we just send it with status update if backend supports it - 
-      // backend currently DOES NOT support name update in status endpoint, 
-      // but let's assume we just approve for now or implement update later)
-      
       const response = await fetch(`/api/v1/admin/users/${selectedUser.id}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getHeaders(),
         body: JSON.stringify({ 
           status: 'APPROVED',
           branch_id: parseInt(selectedBranchId)
@@ -133,7 +140,7 @@ export default function ApprovalQueue() {
     try {
       const response = await fetch(`/api/v1/admin/users/${selectedUser.id}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getHeaders(),
         body: JSON.stringify({ 
           status: 'REJECTED',
           rejection_reason: rejectionReason
@@ -236,6 +243,15 @@ export default function ApprovalQueue() {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
+            {selectedUser?.face_image_url && (
+              <div className="flex justify-center mb-4">
+                <img 
+                  src={selectedUser.face_image_url} 
+                  alt="Enrolled Face" 
+                  className="w-32 h-32 object-cover rounded-full border-2 border-primary"
+                />
+              </div>
+            )}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="app-name" className="text-right">Full Name</Label>
               <Input id="app-name" value={editName} disabled className="col-span-3" />

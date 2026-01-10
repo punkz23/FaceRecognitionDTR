@@ -41,6 +41,12 @@ class User(Base):
     attendance_logs = relationship("AttendanceLog", back_populates="user")
     face_encodings = relationship("FaceEncoding", back_populates="user")
 
+    @property
+    def face_image_url(self):
+        if self.face_encodings and len(self.face_encodings) > 0:
+            return self.face_encodings[0].image_path
+        return None
+
 class Department(Base):
     __tablename__ = "departments"
 
@@ -76,6 +82,7 @@ class FaceEncoding(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     encoding = Column(LargeBinary, nullable=False)  # Storing numpy array as bytes
+    image_path = Column(String, nullable=True)      # Path to the enrollment image
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     user = relationship("User", back_populates="face_encodings")

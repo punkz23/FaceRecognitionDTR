@@ -10,6 +10,7 @@ interface User {
   email: string;
   status: string;
   employee_id: string;
+  face_image_url?: string;
 }
 
 export default function EmployeeManagement() {
@@ -63,13 +64,14 @@ export default function EmployeeManagement() {
               <TableHead>Email</TableHead>
               <TableHead>Employee ID</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Face</TableHead> {/* New column for face */}
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {users.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-24 text-muted-foreground">
+                <TableCell colSpan={6} className="text-center h-24 text-muted-foreground"> {/* Updated colspan */}
                   {loading ? "Loading..." : "No employees found."}
                 </TableCell>
               </TableRow>
@@ -83,6 +85,17 @@ export default function EmployeeManagement() {
                     <Badge variant={user.status === 'APPROVED' ? 'default' : 'outline'}>
                       {user.status}
                     </Badge>
+                  </TableCell>
+                  <TableCell> {/* New cell for face */}
+                    {user.face_image_url ? (
+                      <img 
+                        src={user.face_image_url} 
+                        alt="Enrolled Face" 
+                        className="w-10 h-10 object-cover rounded-full"
+                      />
+                    ) : (
+                      <UserCog className="h-6 w-6 text-muted-foreground" />
+                    )}
                   </TableCell>
                   <TableCell className="text-right space-x-2">
                     <Button 
