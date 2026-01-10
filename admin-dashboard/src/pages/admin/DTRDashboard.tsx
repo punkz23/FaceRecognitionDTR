@@ -29,9 +29,7 @@ export default function DTRDashboard() {
   const fetchLogs = async () => {
     setLoading(true);
     try {
-      // Assuming there's an admin endpoint to see all logs, or we use a general one for now
-      // In a real implementation, we'd have /api/v1/admin/attendance
-      const response = await fetch('/api/v1/attendance/history', {
+      const response = await fetch('/api/v1/admin/attendance', { // Changed endpoint
         headers: getHeaders(),
       }); 
       if (response.ok) {
@@ -80,9 +78,9 @@ export default function DTRDashboard() {
             ) : (
               logs.map((log) => (
                 <TableRow key={log.id}>
-                  <TableCell className="font-medium">{log.full_name || 'System User'}</TableCell>
+                  <TableCell className="font-medium">{log.full_name}</TableCell> {/* Removed || 'System User' */}
                   <TableCell>
-                    <Badge variant={log.type === 'TIME_IN' ? 'default' : 'secondary'}>
+                    <Badge variant={log.type === 'CLOCK_IN' ? 'default' : 'secondary'}> {/* Changed to CLOCK_IN */}
                       {log.type}
                     </Badge>
                   </TableCell>

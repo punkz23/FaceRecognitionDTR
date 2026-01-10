@@ -22,3 +22,4 @@ class Attendance(AttendanceBase):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
     location_verified: Optional[bool] = None
+    full_name: Optional[str] = None # Added for display in DTR dashboard

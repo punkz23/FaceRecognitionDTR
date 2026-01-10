@@ -1,7 +1,7 @@
 from typing import Any, List
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app import models, schemas
 from app.api import deps
 from app.services.email_service import email_service
@@ -100,3 +100,17 @@ def update_user_status(
     db.commit()
     db.refresh(user)
     return user
+
+# Attendance Endpoints
+@router.get("/attendance", response_model=List[schemas.Attendance])
+def read_attendance_logs(
+    db: Session = Depends(deps.get_db),
+    skip: int = 0,
+    limit: int = 100,
+    current_user: models.User = Depends(deps.get_current_active_admin),
+) -> Any:
+    attendance_logs = db.query(models.AttendanceLog).options(joinedload(models.AttendanceLog.user)).offset(skip).limit(limit).all()
+    # Manually populate full_name from the loaded user relationship
+    for log in attendance_logs:
+        log.full_name = log.user.full_name if log.user else None
+    return attendance_logs

@@ -9,7 +9,7 @@ describe('DTRDashboard', () => {
         id: '1', 
         user_id: 'u1', 
         full_name: 'John Doe', 
-        type: 'TIME_IN', 
+        type: 'CLOCK_IN', // Updated to CLOCK_IN
         timestamp: '2026-01-09T08:00:00Z',
         location_verified: true,
         confidence_score: 0.95
@@ -30,10 +30,10 @@ describe('DTRDashboard', () => {
     
     await waitFor(() => {
       expect(screen.getByText('John Doe')).toBeInTheDocument();
-      expect(screen.getByText('TIME_IN')).toBeInTheDocument();
+      expect(screen.getByText('CLOCK_IN')).toBeInTheDocument(); // Updated assertion
     });
 
-    expect(window.fetch).toHaveBeenCalledWith('/api/v1/attendance/history', {
+    expect(window.fetch).toHaveBeenCalledWith('/api/v1/admin/attendance', { // Updated endpoint
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
