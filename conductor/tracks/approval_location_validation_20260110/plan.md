@@ -21,12 +21,12 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
 - [x] Task: Implement Email Service (Mock/Placeholder) (983309e)
     - [x] Write Tests: Test a utility that logs email sending.
     - [x] Implement Feature: Create a simple email service in `backend/app/services/email_service.py`.
-- [ ] Task: Update Admin Approval API
-    - [ ] Write Tests: Test `PATCH /admin/users/{id}/status` with `branch_id` and verify email "trigger".
-    - [ ] Implement Feature: Update `backend/app/api/v1/endpoints/admin.py` to handle branch assignment and email notification on approval.
-- [ ] Task: Implement Rejection API
-    - [ ] Write Tests: Test `PATCH /admin/users/{id}/status` with `REJECTED` and `rejection_reason`.
-    - [ ] Implement Feature: Add rejection logic and email notification with reason.
+- [x] Task: Update Admin Approval API (9536121)
+    - [x] Write Tests: Test `PATCH /admin/users/{id}/status` with `branch_id` and verify email "trigger".
+    - [x] Implement Feature: Update `backend/app/api/v1/endpoints/admin.py` to handle branch assignment and email notification on approval.
+- [x] Task: Implement Rejection API (9536121)
+    - [x] Write Tests: Test `PATCH /admin/users/{id}/status` with `REJECTED` and `rejection_reason`.
+    - [x] Implement Feature: Add rejection logic and email notification with reason.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Enhanced Approval & Rejection Logic' (Protocol in workflow.md)
 
 ## Phase 4: Strict Location Validation [checkpoint: ]
