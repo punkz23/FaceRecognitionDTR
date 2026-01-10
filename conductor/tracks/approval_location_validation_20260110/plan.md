@@ -44,11 +44,11 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
     - [x] Implement Feature: Create Branch List and Branch Form components/pages in `admin-dashboard`.
 - [x] Task: Conductor - User Manual Verification 'Phase 5: Admin Dashboard - Branch UI' (Protocol in workflow.md) (948bb07)
 
-## Phase 6: Admin Dashboard - Enhanced Approval UI [checkpoint: ]
+## Phase 6: Admin Dashboard - Enhanced Approval UI [checkpoint: e7d320a]
 - [x] Task: Update Approval Queue UI (7ec4319)
     - [x] Write Tests: Test branch selection in the approval modal and rejection reason input.
     - [x] Implement Feature: Add face image display, branch selection, and rejection modal to the approval workflow.
-- [ ] Task: Conductor - User Manual Verification 'Phase 6: Admin Dashboard - Enhanced Approval UI' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 6: Admin Dashboard - Enhanced Approval UI' (Protocol in workflow.md) (e7d320a)
 
 ## Phase 7: Mobile App - Status & GPS Handling [checkpoint: ]
 - [ ] Task: Implement Rejection Feedback in Login
