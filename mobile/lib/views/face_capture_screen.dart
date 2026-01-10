@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -143,10 +144,10 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
             try {
               final position = await _locationService.getCurrentLocation();
               final XFile image = await _controller!.takePicture();
+              final Uint8List imageBytes = await image.readAsBytes();
               
               if (!kIsWeb) {
-                final inputImage = InputImage.fromFilePath(image.path);
-                final faces = await _faceDetector!.processImage(inputImage);
+                final faces = await _faceDetector!.processImage(InputImage.fromFilePath(image.path));
 
                 if (faces.isEmpty) {
                   if (mounted) {
@@ -161,7 +162,7 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
 
               // Send to API
               final result = await _attendanceRepository.clockIn(
-                File(image.path),
+                imageBytes,
                 position?.latitude,
                 position?.longitude,
               );

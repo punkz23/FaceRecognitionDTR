@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -169,13 +170,32 @@ class _FaceEnrollmentScreenState extends State<FaceEnrollmentScreen> {
     setState(() => _isProcessing = true);
 
     try {
+      print('Taking picture...');
       final XFile image = await _controller!.takePicture();
+      print('Picture taken: ${image.path}');
+
+      print('Reading picture bytes...');
+      final Uint8List imageBytes = await image.readAsBytes();
+      print('Bytes read: ${imageBytes.length}');
       
       if (!kIsWeb) {
-        final inputImage = InputImage.fromFilePath(image.path);
-        final faces = await _faceDetector!.processImage(inputImage);
+        print('Processing image for face detection...');
+        final inputImage = InputImage.fromBytes(
+          bytes: imageBytes,
+          metadata: InputImageMetadata(
+            size: const Size(720, 1280), // Approximated
+            rotation: InputImageRotation.rotation0deg,
+            format: InputImageFormat.bgra8888,
+            bytesPerRow: 720 * 4,
+          ),
+        );
+        // On mobile, ML Kit still needs a File or specific metadata. 
+        // To keep it simple and working on both, we use File only on mobile.
+        final faces = await _faceDetector!.processImage(InputImage.fromFilePath(image.path));
+        print('Faces detected: ${faces.length}');
 
         if (faces.isEmpty) {
+          print('No face detected.');
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('No face detected. Please try again.')),
@@ -186,14 +206,16 @@ class _FaceEnrollmentScreenState extends State<FaceEnrollmentScreen> {
         }
       }
 
+      print('Calling registration API...');
       // Send to Registration API
       await _authRepository.register(
         email: widget.email,
         password: widget.password,
         fullName: widget.fullName,
         employeeId: widget.employeeId,
-        imageFile: File(image.path),
+        imageBytes: imageBytes,
       );
+      print('Registration API call successful.');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

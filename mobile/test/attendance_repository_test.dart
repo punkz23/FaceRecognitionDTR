@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -24,9 +25,7 @@ void main() {
   });
 
   test('clockIn sends correct data and returns response', () async {
-    final mockFile = MockFile();
-    when(() => mockFile.readAsBytes()).thenAnswer((_) async => Uint8List.fromList([1, 2, 3]));
-    
+    final imageBytes = Uint8List.fromList([1, 2, 3]);
     final responseData = {'id': '123', 'location_verified': true};
     
     when(() => mockDio.post(
@@ -38,12 +37,17 @@ void main() {
       requestOptions: RequestOptions(path: '/attendance/'),
     ));
 
-    final result = await repository.clockIn(mockFile, 14.0, 120.0);
+    final result = await repository.clockIn(imageBytes, 14.0, 120.0);
 
     expect(result, responseData);
     verify(() => mockDio.post(
       'attendance/',
-      data: any(named: 'data'),
+      data: {
+        'snapshot_base64': base64Encode(imageBytes),
+        'type': 'CLOCK_IN',
+        'latitude': 14.0,
+        'longitude': 120.0,
+      },
     )).called(1);
   });
 }

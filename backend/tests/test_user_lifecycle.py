@@ -137,8 +137,8 @@ def test_admin_approve_user_success(mocker):
     mock_user.is_active = True
     mock_user.department_id = None
     mock_user.branch_id = None
-    mock_user.created_at = datetime.now()
-    
+    mock_user.rejection_reason = None
+    mock_user.created_at = datetime.now()    
     mock_db = mocker.Mock()
     mock_db.query.return_value.filter.return_value.first.return_value = mock_user
     

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:facerecognitiondtr/core/api_client.dart';
@@ -24,13 +25,19 @@ class AuthRepository {
     required String password,
     required String fullName,
     required String employeeId,
-    required File imageFile,
+    required Uint8List imageBytes,
   }) async {
     try {
+      print('AuthRepository: Updating base URL...');
       await _updateBaseUrl();
-      final bytes = await imageFile.readAsBytes();
-      final base64Image = base64Encode(bytes);
+      final baseUrl = _apiClient.dio.options.baseUrl;
+      print('AuthRepository: Base URL is $baseUrl');
 
+      print('AuthRepository: Converting image to Base64...');
+      final base64Image = base64Encode(imageBytes);
+      print('AuthRepository: Base64 length: ${base64Image.length}');
+
+      print('AuthRepository: Sending POST request to auth/register...');
       final response = await _apiClient.dio.post(
         'auth/register',
         data: {
@@ -41,6 +48,7 @@ class AuthRepository {
           'image_base64': base64Image,
         },
       );
+      print('AuthRepository: POST request successful. Status: ${response.statusCode}');
 
       return response.data;
     } on DioException catch (e) {

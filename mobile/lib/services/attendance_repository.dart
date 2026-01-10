@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:facerecognitiondtr/core/api_client.dart';
 
 class AttendanceRepository {
@@ -11,11 +12,10 @@ class AttendanceRepository {
     await _apiClient.updateBaseUrl();
   }
 
-  Future<Map<String, dynamic>> clockIn(File imageFile, double? lat, double? long) async {
+  Future<Map<String, dynamic>> clockIn(Uint8List imageBytes, double? lat, double? long) async {
     try {
       await _updateBaseUrl();
-      final bytes = await imageFile.readAsBytes();
-      final base64Image = base64Encode(bytes);
+      final base64Image = base64Encode(imageBytes);
 
       final response = await _apiClient.dio.post('attendance/', data: {
         'snapshot_base64': base64Image,

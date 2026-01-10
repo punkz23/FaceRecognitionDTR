@@ -40,7 +40,7 @@ void main() {
     });
 
     test('register uses dynamic base URL', () async {
-      when(() => mockFile.readAsBytes()).thenAnswer((_) async => Uint8List(0));
+      final imageBytes = Uint8List(0);
       
       when(() => mockDio.post(
         any(),
@@ -56,7 +56,7 @@ void main() {
         password: 'password',
         fullName: 'Test User',
         employeeId: '123',
-        imageFile: mockFile,
+        imageBytes: imageBytes,
       );
 
       // Verify that the base URL update was triggered
@@ -64,7 +64,7 @@ void main() {
     });
 
     test('improved error reporting includes attempted URL', () async {
-      when(() => mockFile.readAsBytes()).thenAnswer((_) async => Uint8List(0));
+      final imageBytes = Uint8List(0);
       
       final dioException = DioException(
         requestOptions: RequestOptions(path: 'auth/register'),
@@ -80,7 +80,7 @@ void main() {
           password: 'password',
           fullName: 'Test User',
           employeeId: '123',
-          imageFile: mockFile,
+          imageBytes: imageBytes,
         ),
         throwsA(predicate((e) => e is Exception && e.toString().contains('http://dynamic-url.com'))),
       );

@@ -26,24 +26,39 @@ class FaceService:
     @classmethod
     def decode_image(cls, base64_string: str):
         """Decodes a base64 string into a BGR image (OpenCV format)."""
+        print('FaceService: Decoding image...')
         if "base64," in base64_string:
             base64_string = base64_string.split("base64,")[1]
         try:
             img_data = base64.b64decode(base64_string)
             img = Image.open(io.BytesIO(img_data))
+            # Ensure 3 channels (RGB) even if input is RGBA or grayscale
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            
+            # Convert to numpy array and ensure uint8 type
+            img_array = np.array(img).astype(np.uint8)
             # Convert PIL RGB to OpenCV BGR
-            return cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+            image_bgr = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
+            print(f'FaceService: Image decoded. Shape: {image_bgr.shape}, Dtype: {image_bgr.dtype}')
+            return image_bgr
         except Exception as e:
-            print(f"Error decoding image: {e}")
+            print(f"FaceService: Error decoding image: {e}")
             return None
 
     @classmethod
     def get_face_encodings(cls, image_bgr):
         """Extracts face encodings from a BGR image."""
+        print(f'FaceService: Detecting faces. Input shape: {image_bgr.shape}, Dtype: {image_bgr.dtype}')
         # Convert to RGB (required by face_recognition)
         rgb_img = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
+        # Ensure array is C-contiguous for dlib/face_recognition
+        rgb_img = np.ascontiguousarray(rgb_img)
+        print(f'FaceService: RGB image shape: {rgb_img.shape}, Dtype: {rgb_img.dtype}, Contiguous: {rgb_img.flags.c_contiguous}')
         face_locations = face_recognition.face_locations(rgb_img)
+        print(f'FaceService: Found {len(face_locations)} face locations.')
         encodings = face_recognition.face_encodings(rgb_img, face_locations)
+        print(f'FaceService: Generated {len(encodings)} encodings.')
         return encodings
 
     @classmethod

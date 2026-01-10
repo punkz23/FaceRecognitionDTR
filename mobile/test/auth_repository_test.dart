@@ -89,8 +89,7 @@ void main() {
 
   group('register', () {
     test('sends correct data and returns user map on success', () async {
-      final mockFile = MockFile();
-      when(() => mockFile.readAsBytes()).thenAnswer((_) async => Uint8List.fromList([1, 2, 3]));
+      final imageBytes = Uint8List.fromList([1, 2, 3]);
       
       final responseData = {
         'id': '550e8400-e29b-41d4-a716-446655440000',
@@ -112,7 +111,7 @@ void main() {
         password: 'password',
         fullName: 'Test User',
         employeeId: 'EMP001',
-        imageFile: mockFile,
+        imageBytes: imageBytes,
       );
 
       expect(result, responseData);
@@ -123,7 +122,7 @@ void main() {
           'password': 'password',
           'full_name': 'Test User',
           'employee_id': 'EMP001',
-          'image_base64': base64Encode([1, 2, 3]),
+          'image_base64': base64Encode(imageBytes),
         },
       )).called(1);
     });
