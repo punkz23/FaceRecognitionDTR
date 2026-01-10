@@ -12,9 +12,9 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Data Model & Schema Updates' (Protocol in workflow.md) (0ec8a8a)
 
 ## Phase 2: Branch Management API [checkpoint: ]
-- [~] Task: Implement Branch CRUD Endpoints
-    - [~] Write Tests: Create integration tests for `POST`, `GET`, `PATCH`, and `DELETE` /branches.
-    - [~] Implement Feature: Create `backend/app/api/v1/endpoints/branches.py` and register it in `api_router.py`.
+- [x] Task: Implement Branch CRUD Endpoints (2adaf4c)
+    - [x] Write Tests: Create integration tests for `POST`, `GET`, `PATCH`, and `DELETE` /branches.
+    - [x] Implement Feature: Create `backend/app/api/v1/endpoints/branches.py` and register it in `api_router.py`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Branch Management API' (Protocol in workflow.md)
 
 ## Phase 3: Enhanced Approval & Rejection Logic [checkpoint: ]
