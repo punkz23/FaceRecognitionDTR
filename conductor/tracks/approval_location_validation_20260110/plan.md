@@ -6,7 +6,7 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
 - [x] Task: Update User and Branch Models (0631683)
     - [ ] Write Tests: Create tests to verify the new fields (`User.rejection_reason` and `Branch.address`).
     - [ ] Implement Feature: Update `backend/app/models/models.py` with the new fields.
-- [ ] Task: Update Pydantic Schemas
+- [x] Task: Update Pydantic Schemas (897920a)
     - [ ] Write Tests: Create tests for updated Branch and User schemas.
     - [ ] Implement Feature: Update `backend/app/schemas/` for Branch (CRUD) and User (status updates).
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Data Model & Schema Updates' (Protocol in workflow.md)
