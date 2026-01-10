@@ -38,11 +38,11 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
     - [x] Implement Feature: Update `backend/app/api/v1/endpoints/attendance.py` to validate location against the user's assigned branch.
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Strict Location Validation' (Protocol in workflow.md) (8a58fe6)
 
-## Phase 5: Admin Dashboard - Branch UI [checkpoint: ]
+## Phase 5: Admin Dashboard - Branch UI [checkpoint: 948bb07]
 - [x] Task: Build Branch Management Pages (7535fd5)
     - [x] Write Tests: Test rendering of branch list and creation form.
     - [x] Implement Feature: Create Branch List and Branch Form components/pages in `admin-dashboard`.
-- [ ] Task: Conductor - User Manual Verification 'Phase 5: Admin Dashboard - Branch UI' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 5: Admin Dashboard - Branch UI' (Protocol in workflow.md) (948bb07)
 
 ## Phase 6: Admin Dashboard - Enhanced Approval UI [checkpoint: ]
 - [ ] Task: Update Approval Queue UI
