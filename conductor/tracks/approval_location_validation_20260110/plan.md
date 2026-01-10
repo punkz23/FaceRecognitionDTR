@@ -51,10 +51,10 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
 - [x] Task: Conductor - User Manual Verification 'Phase 6: Admin Dashboard - Enhanced Approval UI' (Protocol in workflow.md) (e7d320a)
 
 ## Phase 7: Mobile App - Status & GPS Handling [checkpoint: ]
-- [ ] Task: Implement Rejection Feedback in Login
-    - [ ] Write Tests: Mock `REJECTED` status response and verify error message display.
-    - [ ] Implement Feature: Update Login flow in Flutter to handle and display `rejection_reason`.
-- [ ] Task: Implement GPS Prompt in Attendance
-    - [ ] Write Tests: Mock location service disabled and verify prompt.
-    - [ ] Implement Feature: Add GPS check and system prompt in the Time In flow.
+- [x] Task: Implement Rejection Feedback in Login (d8dbcf8)
+    - [x] Write Tests: Mock `REJECTED` status response and verify error message display.
+    - [x] Implement Feature: Update Login flow in Flutter to handle and display `rejection_reason`.
+- [x] Task: Implement GPS Prompt in Attendance (d8dbcf8)
+    - [x] Write Tests: Mock location service disabled and verify prompt.
+    - [x] Implement Feature: Add GPS check and system prompt in the Time In flow.
 - [ ] Task: Conductor - User Manual Verification 'Phase 7: Mobile App - Status & GPS Handling' (Protocol in workflow.md)
