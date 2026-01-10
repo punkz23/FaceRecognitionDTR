@@ -35,7 +35,7 @@ def create_user(
     *,
     db: Session = Depends(deps.get_db),
     user_in: schemas.UserCreate,
-    #current_user: models.User = Depends(deps.get_current_active_admin),
+    current_user: models.User = Depends(deps.get_current_active_admin),
 ) -> Any:
     """
     Create new user.
@@ -52,6 +52,7 @@ def create_user(
         full_name=user_in.full_name,
         employee_id=user_in.employee_id,
         role=user_in.role,
+        status=user_in.status,
     )
     db.add(db_obj)
     db.commit()
