@@ -2,11 +2,30 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Settings2, Map, RefreshCw } from "lucide-react";
+import { 
+  Settings2, 
+  Map, 
+  RefreshCw, 
+  Plus, 
+  Trash2, 
+  Save, 
+  X as CloseIcon 
+} from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface Branch {
-  id: number;
+  id?: number;
   name: string;
+  address: string;
   latitude: number;
   longitude: number;
   radius_meters: number;
@@ -15,11 +34,20 @@ interface Branch {
 export default function BranchManagement() {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentBranch, setCurrentBranch] = useState<Branch | null>(null);
+  const [formData, setFormData] = useState<Branch>({
+    name: "",
+    address: "",
+    latitude: 0,
+    longitude: 0,
+    radius_meters: 100,
+  });
 
   const fetchBranches = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/v1/admin/branches'); // Assuming this endpoint exists or will exist
+      const response = await fetch('/api/v1/branches/');
       if (response.ok) {
         const data = await response.json();
         setBranches(data);
@@ -35,14 +63,79 @@ export default function BranchManagement() {
     fetchBranches();
   }, []);
 
+  const openDialog = (branch: Branch | null = null) => {
+    if (branch) {
+      setCurrentBranch(branch);
+      setFormData({ ...branch });
+    } else {
+      setCurrentBranch(null);
+      setFormData({
+        name: "",
+        address: "",
+        latitude: 0,
+        longitude: 0,
+        radius_meters: 100,
+      });
+    }
+    setIsDialogOpen(true);
+  };
+
+  const handleSave = async () => {
+    try {
+      const url = currentBranch 
+        ? `/api/v1/branches/${currentBranch.id}` 
+        : '/api/v1/branches/';
+      const method = currentBranch ? 'PATCH' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsDialogOpen(false);
+        fetchBranches();
+      } else {
+        const error = await response.json();
+        alert(error.detail || "Failed to save branch");
+      }
+    } catch (error) {
+      console.error("Error saving branch", error);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Are you sure you want to delete this branch?")) return;
+    try {
+      const response = await fetch(`/api/v1/branches/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        fetchBranches();
+      }
+    } catch (error) {
+      console.error("Error deleting branch", error);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Branch Configuration</h2>
-        <Button variant="outline" size="sm" onClick={fetchBranches} disabled={loading}>
-          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
-        </Button>
+        <div>
+          <h2 className="text-2xl font-bold">Branch Management</h2>
+          <p className="text-sm text-muted-foreground">Manage physical locations and geofences.</p>
+        </div>
+        <div className="flex space-x-2">
+          <Button variant="outline" size="sm" onClick={fetchBranches} disabled={loading}>
+            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
+          <Button size="sm" onClick={() => openDialog()}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Branch
+          </Button>
+        </div>
       </div>
 
       <div className="border rounded-md">
@@ -50,9 +143,9 @@ export default function BranchManagement() {
           <TableHeader>
             <TableRow>
               <TableHead>Branch Name</TableHead>
+              <TableHead>Address</TableHead>
               <TableHead>Coordinates</TableHead>
               <TableHead>Radius</TableHead>
-              <TableHead>Status</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -67,10 +160,11 @@ export default function BranchManagement() {
               branches.map((branch) => (
                 <TableRow key={branch.id}>
                   <TableCell className="font-medium">{branch.name}</TableCell>
+                  <TableCell className="max-w-[200px] truncate">{branch.address || "-"}</TableCell>
                   <TableCell>
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Map className="h-3 w-3 mr-1" />
-                      {branch.latitude}, {branch.longitude}
+                      {branch.latitude?.toFixed(4)}, {branch.longitude?.toFixed(4)}
                     </div>
                   </TableCell>
                   <TableCell>
@@ -78,17 +172,21 @@ export default function BranchManagement() {
                       {branch.radius_meters}m
                     </Badge>
                   </TableCell>
-                  <TableCell>
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Active</Badge>
-                  </TableCell>
                   <TableCell className="text-right space-x-2">
                     <Button 
                       size="sm" 
-                      variant="outline"
-                      onClick={() => console.log('Configure', branch.id)}
+                      variant="ghost"
+                      onClick={() => openDialog(branch)}
                     >
-                      <Settings2 className="h-4 w-4 mr-1" />
-                      Configure
+                      <Settings2 className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="ghost"
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      onClick={() => branch.id && handleDelete(branch.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -97,9 +195,84 @@ export default function BranchManagement() {
           </TableBody>
         </Table>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{currentBranch ? "Edit Branch" : "Add New Branch"}</DialogTitle>
+            <DialogDescription>
+              Enter the branch details and geofence configuration.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">Name</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="col-span-3"
+                placeholder="e.g. Main Branch"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="address" className="text-right">Address</Label>
+              <Input
+                id="address"
+                value={formData.address}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                className="col-span-3"
+                placeholder="123 Street, City"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="lat" className="text-right">Latitude</Label>
+              <Input
+                id="lat"
+                type="number"
+                step="any"
+                value={formData.latitude}
+                onChange={(e) => setFormData({ ...formData, latitude: parseFloat(e.target.value) || 0 })}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="lon" className="text-right">Longitude</Label>
+              <Input
+                id="lon"
+                type="number"
+                step="any"
+                value={formData.longitude}
+                onChange={(e) => setFormData({ ...formData, longitude: parseFloat(e.target.value) || 0 })}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="radius" className="text-right">Radius (m)</Label>
+              <Input
+                id="radius"
+                type="number"
+                value={formData.radius_meters}
+                onChange={(e) => setFormData({ ...formData, radius_meters: parseInt(e.target.value) || 0 })}
+                className="col-span-3"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+              <CloseIcon className="h-4 w-4 mr-2" />
+              Cancel
+            </Button>
+            <Button onClick={handleSave}>
+              <Save className="h-4 w-4 mr-2" />
+              Save Branch
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       
       <p className="text-sm text-muted-foreground italic">
-        * Map integration for geofence visualization is planned for the next update.
+        * Tip: You can get coordinates from Google Maps by right-clicking a location.
       </p>
     </div>
   );
