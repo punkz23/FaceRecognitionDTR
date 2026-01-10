@@ -146,8 +146,16 @@ def test_admin_approve_user_success(mocker):
     app.dependency_overrides[deps.get_db] = lambda: mock_db
     
     user_id = str(mock_user.id)
-    data = {"status": "APPROVED"}
+    data = {"status": "APPROVED", "branch_id": 1}
     
+    mock_branch = mocker.Mock()
+    mock_branch.id = 1
+    mock_branch.name = "Test Branch"
+    mock_db.query.return_value.filter.return_value.first.side_effect = [mock_user, mock_branch]
+    
+    # Mock email service to avoid errors
+    mocker.patch("app.api.v1.endpoints.admin.email_service")
+
     try:
         response = client.patch(f"{settings.API_V1_STR}/admin/users/{user_id}/status", json=data)
         assert response.status_code == 200
