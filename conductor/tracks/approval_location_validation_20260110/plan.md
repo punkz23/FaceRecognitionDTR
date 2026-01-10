@@ -2,7 +2,7 @@
 
 This plan outlines the steps to implement the enhanced Admin approval workflow, branch management, and strict location validation for attendance.
 
-## Phase 1: Data Model & Schema Updates [checkpoint: ]
+## Phase 1: Data Model & Schema Updates [checkpoint: 0ec8a8a]
 - [x] Task: Update User and Branch Models (0631683)
     - [ ] Write Tests: Create tests to verify the new fields (`User.rejection_reason` and `Branch.address`).
     - [ ] Implement Feature: Update `backend/app/models/models.py` with the new fields.
