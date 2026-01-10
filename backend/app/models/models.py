@@ -32,6 +32,7 @@ class User(Base):
     status = Column(Enum(UserStatus), default=UserStatus.PENDING)
     department_id = Column(Integer, ForeignKey("departments.id"), nullable=True)
     branch_id = Column(Integer, ForeignKey("branches.id"), nullable=True)
+    rejection_reason = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
@@ -53,6 +54,7 @@ class Branch(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
+    address = Column(String, nullable=True)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     radius_meters = Column(Float, default=100.0)
