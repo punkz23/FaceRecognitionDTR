@@ -39,9 +39,9 @@ This plan outlines the steps to implement the enhanced Admin approval workflow, 
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Strict Location Validation' (Protocol in workflow.md) (8a58fe6)
 
 ## Phase 5: Admin Dashboard - Branch UI [checkpoint: ]
-- [ ] Task: Build Branch Management Pages
-    - [ ] Write Tests: Test rendering of branch list and creation form.
-    - [ ] Implement Feature: Create Branch List and Branch Form components/pages in `admin-dashboard`.
+- [x] Task: Build Branch Management Pages (7535fd5)
+    - [x] Write Tests: Test rendering of branch list and creation form.
+    - [x] Implement Feature: Create Branch List and Branch Form components/pages in `admin-dashboard`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Admin Dashboard - Branch UI' (Protocol in workflow.md)
 
 ## Phase 6: Admin Dashboard - Enhanced Approval UI [checkpoint: ]
