@@ -48,7 +48,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/" element={<Dashboard />} /> {/* Render Dashboard for root if protected */}
         </Route>
       </Routes>
     </BrowserRouter>

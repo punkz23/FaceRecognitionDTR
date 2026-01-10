@@ -14,21 +14,22 @@ from app.core.encryption import DataEncryption
 def create_test_user():
     db = SessionLocal()
     try:
-        # User details
-        email = "test@example.com"
-        password = "testpassword123"
-        employee_id = "TEST001"
-        full_name = "Test User"
+        # User details for the requested admin user
+        email = "iggy@example.com"
+        password = "password"
+        employee_id = "ADMIN001" # Unique ID for admin
+        full_name = "Iggy Admin"
         
         # Check if user already exists
         user = db.query(User).filter(User.email == email).first()
         if user:
-            print(f"User {email} already exists. Updating to APPROVED.")
+            print(f"Admin user {email} already exists. Ensuring role is ADMIN and status is APPROVED.")
+            user.role = UserRole.ADMIN
             user.status = UserStatus.APPROVED
             db.commit()
             return
 
-        print(f"Creating test user: {email}")
+        print(f"Creating admin user: {email}")
         
         # Create user
         db_user = User(
@@ -36,7 +37,7 @@ def create_test_user():
             hashed_password=get_password_hash(password),
             employee_id=employee_id,
             full_name=full_name,
-            role=UserRole.EMPLOYEE,
+            role=UserRole.ADMIN, # Set role to ADMIN
             status=UserStatus.APPROVED,
             is_active=True
         )
@@ -50,12 +51,13 @@ def create_test_user():
         
         db_face = FaceEncoding(
             user_id=db_user.id,
-            encoding=encrypted_encoding
+            encoding=encrypted_encoding,
+            image_path="/static/faces/admin001.jpg" # Placeholder image path
         )
         db.add(db_face)
         
         db.commit()
-        print(f"Successfully created activated test user: {email} with password: {password}")
+        print(f"Successfully created admin user: {email} with password: {password}")
         
     except Exception as e:
         print(f"Error: {e}")

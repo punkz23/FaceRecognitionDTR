@@ -48,7 +48,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (token != null) {
         try {
           final user = await authRepository.getUserProfile();
-          emit(AuthAuthenticated(user));
+          if (user['status'] == 'REJECTED') {
+            final reason = user['rejection_reason'] ?? 'No reason provided.';
+            emit(AuthFailure('Your registration was rejected: $reason'));
+          } else {
+            emit(AuthAuthenticated(user));
+          }
         } catch (e) {
           print('AppStarted error: $e');
           emit(AuthInitial());
@@ -63,6 +68,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await authRepository.login(event.email, event.password);
         final user = await authRepository.getUserProfile();
+        
+        if (user['status'] == 'REJECTED') {
+          final reason = user['rejection_reason'] ?? 'No reason provided.';
+          emit(AuthFailure('Your registration was rejected: $reason'));
+          return;
+        }
+        
+        // PENDING is allowed to log in but will see a warning on dashboard
         emit(AuthAuthenticated(user));
       } catch (e) {
         print('Auth error: $e');

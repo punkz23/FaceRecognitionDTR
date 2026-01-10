@@ -8,15 +8,42 @@ import { useNavigate } from 'react-router-dom';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement actual auth logic
-    console.log('Logging in with', email, password);
-    // Simulate success
-    localStorage.setItem('token', 'dummy-token');
-    navigate('/dashboard');
+    setLoading(true);
+    setError(null);
+
+    try {
+      const formData = new URLSearchParams();
+      formData.append('username', email);
+      formData.append('password', password);
+
+      const response = await fetch('/api/v1/auth/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.access_token);
+        navigate('/dashboard');
+      } else {
+        const errorData = await response.json();
+        setError(errorData.detail || 'Login failed');
+      }
+    } catch (err) {
+      setError('An error occurred. Please check your connection.');
+      console.error('Login error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,10 +77,17 @@ export default function LoginPage() {
                   required
                 />
               </div>
+              {error && (
+                <div className="text-sm text-red-600 font-medium">
+                  {error}
+                </div>
+              )}
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button type="submit">Sign In</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? 'Signing In...' : 'Sign In'}
+            </Button>
           </CardFooter>
         </form>
       </Card>

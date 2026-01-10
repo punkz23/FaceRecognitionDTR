@@ -114,7 +114,9 @@ export default function ApprovalQueue() {
         headers: getHeaders(),
         body: JSON.stringify({ 
           status: 'APPROVED',
-          branch_id: parseInt(selectedBranchId)
+          branch_id: parseInt(selectedBranchId),
+          full_name: editName,
+          employee_id: editEmpId
         }),
       });
 
@@ -254,11 +256,21 @@ export default function ApprovalQueue() {
             )}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="app-name" className="text-right">Full Name</Label>
-              <Input id="app-name" value={editName} disabled className="col-span-3" />
+              <Input 
+                id="app-name" 
+                value={editName} 
+                onChange={(e) => setEditName(e.target.value)}
+                className="col-span-3" 
+              />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="app-id" className="text-right">Emp ID</Label>
-              <Input id="app-id" value={editEmpId} disabled className="col-span-3" />
+              <Input 
+                id="app-id" 
+                value={editEmpId} 
+                onChange={(e) => setEditId(e.target.value)}
+                className="col-span-3" 
+              />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="branch" className="text-right font-bold text-primary">Assign Branch</Label>

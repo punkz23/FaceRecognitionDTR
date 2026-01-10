@@ -76,6 +76,12 @@ def update_user_status(
     
     user.status = status_in.status
     
+    # Update optional fields if provided
+    if status_in.full_name:
+        user.full_name = status_in.full_name
+    if status_in.employee_id:
+        user.employee_id = status_in.employee_id
+    
     # Handle branch assignment on approval
     if status_in.status == models.UserStatus.APPROVED:
         if not status_in.branch_id:

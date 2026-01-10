@@ -26,6 +26,7 @@ def test_approve_user_with_branch(mocker):
     mock_user.branch_id = None
     mock_user.rejection_reason = None
     mock_user.created_at = datetime.now()
+    mock_user.face_image_url = "/static/faces/test.jpg"
 
     mock_branch = mocker.Mock()
     mock_branch.id = 5
@@ -71,6 +72,7 @@ def test_reject_user_with_reason(mocker):
     mock_user.branch_id = None
     mock_user.rejection_reason = None
     mock_user.created_at = datetime.now()
+    mock_user.face_image_url = "/static/faces/test.jpg"
 
     mock_db = mocker.Mock()
     mock_db.query.return_value.filter.return_value.first.return_value = mock_user
@@ -173,5 +175,54 @@ def test_reject_user_missing_reason(mocker):
         response = client.patch(f"{settings.API_V1_STR}/admin/users/{mock_user.id}/status", json={"status": "REJECTED"})
         assert response.status_code == 400
         assert "Rejection reason is required" in response.json()["detail"]
+    finally:
+        app.dependency_overrides.clear()
+
+def test_approve_user_with_edited_details(mocker):
+    """Test approving a user and editing their name and employee ID."""
+    mock_admin = mocker.Mock()
+    mock_admin.role = UserRole.ADMIN
+
+    mock_user = mocker.Mock()
+    mock_user.id = uuid4()
+    mock_user.status = UserStatus.PENDING
+    mock_user.email = "test@example.com"
+    mock_user.full_name = "Original Name"
+    mock_user.employee_id = "OLD001"
+    mock_user.role = UserRole.EMPLOYEE
+    mock_user.is_active = True
+    mock_user.department_id = None
+    mock_user.branch_id = None
+    mock_user.rejection_reason = None
+    mock_user.created_at = datetime.now()
+    mock_user.face_image_url = "/static/faces/test.jpg"
+    
+    mock_branch = mocker.Mock()
+    mock_branch.id = 5
+    mock_branch.name = "Main Branch"
+
+    mock_db = mocker.Mock()
+    mock_db.query.return_value.filter.return_value.first.side_effect = [mock_user, mock_branch]
+
+    mock_email = mocker.patch("app.api.v1.endpoints.admin.email_service")
+
+    app.dependency_overrides[deps.get_current_active_admin] = lambda: mock_admin
+    app.dependency_overrides[deps.get_db] = lambda: mock_db
+
+    data = {
+        "status": UserStatus.APPROVED,
+        "branch_id": 5,
+        "full_name": "New Name",
+        "employee_id": "NEW999"
+    }
+
+    try:
+        response = client.patch(f"{settings.API_V1_STR}/admin/users/{mock_user.id}/status", json=data)
+        assert response.status_code == 200
+        assert mock_user.status == UserStatus.APPROVED
+        assert mock_user.full_name == "New Name"
+        assert mock_user.employee_id == "NEW999"
+        assert mock_user.branch_id == 5
+        mock_email.send_approval_email.assert_called_with("test@example.com", "New Name", "Main Branch")
     finally:
         app.dependency_overrides.clear()

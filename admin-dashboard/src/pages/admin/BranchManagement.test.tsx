@@ -3,7 +3,7 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import BranchManagement from './BranchManagement';
 
 // Mock fetch
-global.fetch = vi.fn();
+window.fetch = vi.fn();
 
 describe('BranchManagement', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('BranchManagement', () => {
     const mockBranches = [
       { id: 1, name: 'Main Branch', address: '123 St', latitude: 10, longitude: 20, radius_meters: 100 }
     ];
-    (global.fetch as any).mockResolvedValueOnce({
+    (window.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockBranches,
     });
@@ -30,7 +30,7 @@ describe('BranchManagement', () => {
   });
 
   it('opens add branch dialog when clicking add button', async () => {
-    (global.fetch as any).mockResolvedValueOnce({
+    (window.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
     });

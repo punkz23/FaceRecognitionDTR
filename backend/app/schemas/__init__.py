@@ -104,6 +104,8 @@ class UserStatusUpdate(BaseModel):
     status: UserStatus
     rejection_reason: Optional[str] = None
     branch_id: Optional[int] = None
+    full_name: Optional[str] = None
+    employee_id: Optional[str] = None
 
 # Attendance schemas
 from .attendance import AttendanceBase, AttendanceCreate, Attendance

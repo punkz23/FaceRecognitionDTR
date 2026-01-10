@@ -14,6 +14,8 @@ reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/auth/token"
 )
 
+import uuid
+
 def get_db() -> Generator:
     try:
         db = SessionLocal()
@@ -34,11 +36,20 @@ def get_current_user(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
         )
-    user = db.query(models.User).filter(models.User.id == token_data.id).first()
+    
+    # Convert string ID to UUID object for compatibility with UUID column types
+    try:
+        user_id = uuid.UUID(token_data.id)
+    except (ValueError, TypeError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid user ID in token",
+        )
+
+    user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
-
 def get_current_active_admin(
     current_user: models.User = Depends(get_current_user),
 ) -> models.User:

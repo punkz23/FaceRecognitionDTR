@@ -36,6 +36,45 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
       );
     }
     _initializeCamera();
+    _checkLocationStatus();
+  }
+
+  Future<void> _checkLocationStatus() async {
+    try {
+      final enabled = await Geolocator.isLocationServiceEnabled();
+      if (!enabled && mounted) {
+        _showGpsDialog();
+      }
+    } catch (e) {
+      debugPrint('Error checking location status: $e');
+    }
+  }
+
+  void _showGpsDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('GPS Disabled'),
+        content: const Text('Please enable location services (GPS) to record your attendance.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Geolocator.openLocationSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _initializeCamera() async {
@@ -177,26 +216,7 @@ class _FaceCaptureScreenState extends State<FaceCaptureScreen> {
               }
             } on LocationServiceDisabledException {
               if (mounted) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('GPS Disabled'),
-                    content: const Text('Please enable location services (GPS) to record your attendance.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Geolocator.openLocationSettings();
-                        },
-                        child: const Text('Open Settings'),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Cancel'),
-                      ),
-                    ],
-                  ),
-                );
+                _showGpsDialog();
               }
               setState(() => _isProcessing = false);
             } on DioException catch (e) {

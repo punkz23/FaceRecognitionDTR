@@ -7,6 +7,7 @@
 - **ORM:** SQLAlchemy
 - **Migration Tool:** Alembic
 - **Face Recognition:** `face_recognition` library, OpenCV (`opencv-python-headless`)
+- **Utilities:** Custom Haversine formula for backend geofencing validation.
 - **Containerization:** Docker, Docker Compose
 - **Security:** JWT (python-jose), Password hashing (passlib with bcrypt)
 - **Configuration:** `pydantic-settings` (for environment variable management)

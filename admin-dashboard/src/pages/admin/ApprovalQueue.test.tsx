@@ -3,7 +3,7 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import ApprovalQueue from './ApprovalQueue';
 
 // Mock fetch
-global.fetch = vi.fn();
+window.fetch = vi.fn();
 
 describe('ApprovalQueue', () => {
   beforeEach(() => {
@@ -14,12 +14,12 @@ describe('ApprovalQueue', () => {
     const mockUsers = [
       { id: '1', full_name: 'John Doe', email: 'john@example.com', status: 'PENDING', employee_id: 'EMP001' }
     ];
-    (global.fetch as any).mockResolvedValueOnce({
+    (window.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockUsers,
     });
     // Second call for branches
-    (global.fetch as any).mockResolvedValueOnce({
+    (window.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
     });
@@ -34,8 +34,8 @@ describe('ApprovalQueue', () => {
 
   it('opens approval modal when clicking approve button', async () => {
     const mockUsers = [{ id: '1', full_name: 'John Doe', email: 'john@example.com', status: 'PENDING', employee_id: 'EMP001' }];
-    (global.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => mockUsers });
-    (global.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => [] });
+    (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => mockUsers });
+    (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => [] });
 
     render(<ApprovalQueue />);
 
@@ -50,8 +50,8 @@ describe('ApprovalQueue', () => {
 
   it('opens rejection modal when clicking reject button', async () => {
     const mockUsers = [{ id: '1', full_name: 'John Doe', email: 'john@example.com', status: 'PENDING', employee_id: 'EMP001' }];
-    (global.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => mockUsers });
-    (global.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => [] });
+    (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => mockUsers });
+    (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => [] });
 
     render(<ApprovalQueue />);
 

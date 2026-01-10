@@ -44,10 +44,20 @@ export default function BranchManagement() {
     radius_meters: 100,
   });
 
+  const getHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+  };
+
   const fetchBranches = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/v1/branches/');
+      const response = await fetch('/api/v1/branches/', {
+        headers: getHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setBranches(data);
@@ -89,7 +99,7 @@ export default function BranchManagement() {
 
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: getHeaders(),
         body: JSON.stringify(formData),
       });
 
@@ -110,6 +120,7 @@ export default function BranchManagement() {
     try {
       const response = await fetch(`/api/v1/branches/${id}`, {
         method: 'DELETE',
+        headers: getHeaders(),
       });
       if (response.ok) {
         fetchBranches();
