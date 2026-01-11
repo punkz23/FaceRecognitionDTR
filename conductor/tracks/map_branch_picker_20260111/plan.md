@@ -10,7 +10,7 @@ This plan outlines the steps to implement an interactive map-based coordinate pi
     - [x] Implement Feature: Create a `MapPicker` component that initializes a Leaflet map centered on a default location.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Dependencies & Base Component' (Protocol in workflow.md)
 
-## Phase 2: Picker Modal & Selection Logic
+## Phase 2: Picker Modal & Selection Logic [checkpoint: 5acfbe7]
 - [x] Task: Implement Map Selection Modal (c1f44e0)
     - [x] Write Tests: Test that clicking the "Pick from Map" button opens the dialog.
     - [x] Implement Feature: Integrate the `MapPicker` into a Shadcn/UI `Dialog`. Add a "Pick from Map" button to the `BranchForm`.
