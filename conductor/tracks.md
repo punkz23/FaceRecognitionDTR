@@ -36,3 +36,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## [x] Track: Approval and Branch Assignment with Location Validation
 *Link: [./conductor/tracks/approval_location_validation_20260110/](./conductor/tracks/approval_location_validation_20260110/)*
+---
+
+## [x] Track: Map-Based Branch Location Picker
+*Link: [./conductor/tracks/map_branch_picker_20260111/](./conductor/tracks/map_branch_picker_20260111/)*

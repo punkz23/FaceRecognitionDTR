@@ -32,7 +32,7 @@ describe('ApprovalQueue', () => {
     });
   });
 
-  it('opens approval modal when clicking approve button', async () => {
+  it('opens review modal when clicking review button', async () => {
     const mockUsers = [{ id: '1', full_name: 'John Doe', email: 'john@example.com', status: 'PENDING', employee_id: 'EMP001' }];
     (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => mockUsers });
     (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => [] });
@@ -41,26 +41,12 @@ describe('ApprovalQueue', () => {
 
     await waitFor(() => screen.getByText('John Doe'));
     
-    const approveButton = screen.getByText(/Review & Approve/i);
-    fireEvent.click(approveButton);
+    const reviewButton = screen.getByText(/Review & Approve/i);
+    fireEvent.click(reviewButton);
 
-    expect(screen.getByText(/Approve Registration/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Assign Branch/i)).toBeInTheDocument();
-  });
-
-  it('opens rejection modal when clicking reject button', async () => {
-    const mockUsers = [{ id: '1', full_name: 'John Doe', email: 'john@example.com', status: 'PENDING', employee_id: 'EMP001' }];
-    (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => mockUsers });
-    (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => [] });
-
-    render(<ApprovalQueue />);
-
-    await waitFor(() => screen.getByText('John Doe'));
-    
-    const rejectButton = screen.getByLabelText(/Reject/i);
-    fireEvent.click(rejectButton);
-
-    expect(screen.getAllByText(/Reject Registration/i)[0]).toBeInTheDocument();
-    expect(screen.getByLabelText(/Rejection Reason/i)).toBeInTheDocument();
+    expect(screen.getByText(/Review Employee Registration/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Assigned Branch/i)).toBeInTheDocument();
+    expect(screen.getByText(/Approve Employee/i)).toBeInTheDocument();
+    expect(screen.getByText(/Disapprove/i)).toBeInTheDocument();
   });
 });

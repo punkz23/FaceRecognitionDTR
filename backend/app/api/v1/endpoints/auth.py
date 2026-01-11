@@ -1,3 +1,5 @@
+import os
+import base64
 from datetime import timedelta
 from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -79,13 +81,31 @@ def register(
     db.add(db_obj)
     db.flush() # To get the ID
 
+    # Save image to disk
+    file_path = f"static/faces/{db_obj.id}.jpg"
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    
+    saved_image_path = None
+    try:
+        # Remove header if present (e.g., "data:image/jpeg;base64,")
+        img_data = user_in.image_base64
+        if "," in img_data:
+            img_data = img_data.split(",")[1]
+            
+        with open(file_path, "wb") as f:
+            f.write(base64.b64decode(img_data))
+        saved_image_path = f"/{file_path}"
+    except Exception as e:
+        print(f"Error saving face image during registration: {e}")
+
     # Encrypt and save face encoding
     encoding_bytes = encodings[0].tobytes()
     encrypted_encoding = DataEncryption.encrypt(encoding_bytes)
 
     db_face = models.FaceEncoding(
         user_id=db_obj.id,
-        encoding=encrypted_encoding
+        encoding=encrypted_encoding,
+        image_path=saved_image_path
     )
     db.add(db_face)
     db.commit()

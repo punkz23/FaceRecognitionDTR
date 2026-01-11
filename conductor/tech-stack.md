@@ -17,6 +17,7 @@
 - **Build Tool:** Vite
 - **Styling:** Tailwind CSS
 - **UI Components:** Shadcn/UI (Radix UI + Lucide Icons)
+- **Maps:** Leaflet, React-Leaflet (using OpenStreetMap/Nominatim)
 
 ## Mobile
 - **Framework:** Flutter (Dart)

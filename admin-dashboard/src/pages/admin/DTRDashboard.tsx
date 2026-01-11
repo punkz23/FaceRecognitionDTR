@@ -80,7 +80,7 @@ export default function DTRDashboard() {
                 <TableRow key={log.id}>
                   <TableCell className="font-medium">{log.full_name}</TableCell> {/* Removed || 'System User' */}
                   <TableCell>
-                    <Badge variant={log.type === 'CLOCK_IN' ? 'default' : 'secondary'}> {/* Changed to CLOCK_IN */}
+                    <Badge variant={log.type === 'TIME_IN' ? 'default' : 'secondary'}>
                       {log.type}
                     </Badge>
                   </TableCell>

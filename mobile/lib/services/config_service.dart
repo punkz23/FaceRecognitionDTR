@@ -4,7 +4,7 @@ class ConfigService {
   static const String _keyBaseUrl = 'api_base_url';
   // Default URL for Android Emulator to localhost
   // Note: For physical devices this should be the computer's IP address
-  static const String _defaultBaseUrl = 'http://192.168.253.100:8000';
+  static const String _defaultBaseUrl = 'http://192.168.1.5:8000';
 
   Future<String> getBaseUrl() async {
     final prefs = await SharedPreferences.getInstance();

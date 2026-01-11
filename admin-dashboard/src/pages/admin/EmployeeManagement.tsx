@@ -87,15 +87,17 @@ export default function EmployeeManagement() {
                     </Badge>
                   </TableCell>
                   <TableCell> {/* New cell for face */}
-                    {user.face_image_url ? (
-                      <img 
-                        src={user.face_image_url} 
-                        alt="Enrolled Face" 
-                        className="w-10 h-10 object-cover rounded-full"
-                      />
-                    ) : (
-                      <UserCog className="h-6 w-6 text-muted-foreground" />
-                    )}
+                    <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-muted hover:border-primary transition-all hover:scale-105">
+                      {user.face_image_url ? (
+                        <img 
+                          src={user.face_image_url} 
+                          alt="Enrolled Face" 
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <UserCog className="h-8 w-8 text-muted-foreground" />
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell className="text-right space-x-2">
                     <Button 
