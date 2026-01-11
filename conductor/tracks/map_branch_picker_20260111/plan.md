@@ -14,9 +14,9 @@ This plan outlines the steps to implement an interactive map-based coordinate pi
 - [x] Task: Implement Map Selection Modal (c1f44e0)
     - [x] Write Tests: Test that clicking the "Pick from Map" button opens the dialog.
     - [x] Implement Feature: Integrate the `MapPicker` into a Shadcn/UI `Dialog`. Add a "Pick from Map" button to the `BranchForm`.
-- [ ] Task: Implement Center Crosshair & Coordinate Tracking
-    - [ ] Write Tests: Verify that panning the map updates the tracked coordinates.
-    - [ ] Implement Feature: Add a visual crosshair overlay. Use Leaflet's `move` event to track the map's center coordinates and update a "Confirm" button's state.
+- [x] Task: Implement Center Crosshair & Coordinate Tracking (7f6f430)
+    - [x] Write Tests: Verify that panning the map updates the tracked coordinates.
+    - [x] Implement Feature: Add a visual crosshair overlay. Use Leaflet's `move` event to track the map's center coordinates and update a "Confirm" button's state.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Picker Modal & Selection Logic' (Protocol in workflow.md)
 
 ## Phase 3: Search & Geofence Visualization
