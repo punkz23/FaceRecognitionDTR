@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, useMapEvents, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents, useMap, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useState, useCallback, useEffect } from 'react';
 import L from 'leaflet';
@@ -19,6 +19,7 @@ interface MapPickerProps {
   initialCenter?: [number, number];
   initialZoom?: number;
   onLocationSelect: (lat: number, lng: number) => void;
+  radius?: number;
 }
 
 export function MapEvents({ onMove }: { onMove: (lat: number, lng: number) => void }) {
@@ -43,6 +44,7 @@ export default function MapPicker({
   initialCenter = [14.5995, 120.9842], // Manila
   initialZoom = 13,
   onLocationSelect,
+  radius = 100,
 }: MapPickerProps) {
   const [center, setCenter] = useState<{ lat: number; lng: number }>({
     lat: initialCenter[0],
@@ -116,6 +118,15 @@ export default function MapPicker({
           />
           <MapEvents onMove={handleMove} />
           <ChangeView center={mapCenter} />
+          <Circle 
+            center={[center.lat, center.lng]} 
+            radius={radius} 
+            pathOptions={{ 
+              color: '#3b82f6', 
+              fillColor: '#3b82f6', 
+              fillOpacity: 0.2 
+            }} 
+          />
         </MapContainer>
         
         {/* Visual Crosshair Overlay */}

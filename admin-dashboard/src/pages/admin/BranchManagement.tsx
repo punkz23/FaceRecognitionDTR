@@ -327,6 +327,7 @@ export default function BranchManagement() {
             <MapPicker 
               initialCenter={[formData.latitude, formData.longitude]}
               onLocationSelect={(lat, lng) => setTempCoords({ lat, lng })}
+              radius={formData.radius_meters}
             />
           </div>
           <DialogFooter>
