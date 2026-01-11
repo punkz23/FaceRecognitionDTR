@@ -28,7 +28,7 @@ This plan outlines the steps to implement an interactive map-based coordinate pi
     - [x] Implement Feature: Render a `L.Circle` centered on the crosshair that reactively scales with the `radius` field from the branch form.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Search & Geofence Visualization' (Protocol in workflow.md)
 
-## Phase 4: Final Integration & UX
+## Phase 4: Final Integration & UX [checkpoint: 521edbf]
 - [x] Task: Finalize Coordinate Hand-back (bc1ca99)
     - [x] Write Tests: Test that clicking "Confirm" in the modal populates the main form's Lat/Long fields.
     - [x] Implement Feature: Connect the modal's "Confirm" action to the form state.
