@@ -2,7 +2,7 @@
 
 This plan outlines the steps to implement an interactive map-based coordinate picker for branch management in the admin dashboard.
 
-## Phase 1: Dependencies & Base Component
+## Phase 1: Dependencies & Base Component [checkpoint: d022097]
 - [x] Task: Install Leaflet and React-Leaflet (8db2154)
     - [x] Implement Feature: Install `leaflet`, `react-leaflet`, and `@types/leaflet` in the `admin-dashboard` directory.
 - [x] Task: Create Map Component Skeleton (9b4cb19)
