@@ -18,7 +18,7 @@ interface MapPickerProps {
   onLocationSelect: (lat: number, lng: number) => void;
 }
 
-function MapEvents({ onMove }: { onMove: (lat: number, lng: number) => void }) {
+export function MapEvents({ onMove }: { onMove: (lat: number, lng: number) => void }) {
   useMapEvents({
     move: (e) => {
       const center = e.target.getCenter();

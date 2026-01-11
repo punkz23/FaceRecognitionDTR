@@ -4,10 +4,13 @@ import { render, screen } from '@testing-library/react';
 import MapPicker from './MapPicker';
 
 describe('MapPicker', () => {
-  it('renders the map container', () => {
+  it('renders the map container and initial coordinates', () => {
     const { container } = render(<MapPicker onLocationSelect={() => {}} />);
     // Check if the leaflet container is present
     const mapElement = container.querySelector('.leaflet-container');
     expect(mapElement).not.toBeNull();
+    
+    // Check initial coordinate display
+    expect(screen.getByText(/14.599500, 120.984200/)).toBeInTheDocument();
   });
 });
