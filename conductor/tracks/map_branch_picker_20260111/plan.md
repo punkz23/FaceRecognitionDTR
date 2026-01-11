@@ -19,7 +19,7 @@ This plan outlines the steps to implement an interactive map-based coordinate pi
     - [x] Implement Feature: Add a visual crosshair overlay. Use Leaflet's `move` event to track the map's center coordinates and update a "Confirm" button's state.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Picker Modal & Selection Logic' (Protocol in workflow.md)
 
-## Phase 3: Search & Geofence Visualization
+## Phase 3: Search & Geofence Visualization [checkpoint: d97bced]
 - [x] Task: Integrate Nominatim Search (25f7c5c)
     - [x] Write Tests: Mock the Nominatim API and verify that selecting a result pans the map.
     - [x] Implement Feature: Add a search input that queries Nominatim and moves the map to the selected address.
