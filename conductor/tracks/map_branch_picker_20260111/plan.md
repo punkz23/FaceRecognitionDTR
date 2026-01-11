@@ -20,9 +20,9 @@ This plan outlines the steps to implement an interactive map-based coordinate pi
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Picker Modal & Selection Logic' (Protocol in workflow.md)
 
 ## Phase 3: Search & Geofence Visualization
-- [ ] Task: Integrate Nominatim Search
-    - [ ] Write Tests: Mock the Nominatim API and verify that selecting a result pans the map.
-    - [ ] Implement Feature: Add a search input that queries Nominatim and moves the map to the selected address.
+- [x] Task: Integrate Nominatim Search (25f7c5c)
+    - [x] Write Tests: Mock the Nominatim API and verify that selecting a result pans the map.
+    - [x] Implement Feature: Add a search input that queries Nominatim and moves the map to the selected address.
 - [ ] Task: Add Dynamic Radius Circle
     - [ ] Write Tests: Verify the circle radius updates when the form's radius value changes.
     - [ ] Implement Feature: Render a `L.Circle` centered on the crosshair that reactively scales with the `radius` field from the branch form.
