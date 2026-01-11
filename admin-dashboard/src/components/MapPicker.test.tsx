@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 // @ts-ignore
 import MapPicker from './MapPicker';
 
@@ -12,5 +12,26 @@ describe('MapPicker', () => {
     
     // Check initial coordinate display
     expect(screen.getByText(/14.599500, 120.984200/)).toBeInTheDocument();
+  });
+
+  it('calls Nominatim API on search', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => [{ lat: '14.6', lon: '121.0' }],
+    });
+    window.fetch = mockFetch;
+
+    const { container } = render(<MapPicker onLocationSelect={() => {}} />);
+    
+    const input = screen.getByPlaceholderText(/Search for address.../i);
+    const form = container.querySelector('form')!;
+
+    fireEvent.change(input, { target: { value: 'Manila' } });
+    fireEvent.submit(form);
+
+    await waitFor(() => {
+      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('nominatim.openstreetmap.org/search'));
+      expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('q=Manila'));
+    });
   });
 });
