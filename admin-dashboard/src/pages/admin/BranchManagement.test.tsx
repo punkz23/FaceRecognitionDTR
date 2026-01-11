@@ -44,4 +44,21 @@ describe('BranchManagement', () => {
     expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Address/i)).toBeInTheDocument();
   });
+
+  it('opens map picker dialog when clicking pick from map button', async () => {
+    (window.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => [],
+    });
+
+    render(<BranchManagement />);
+
+    const addButton = screen.getByText(/Add Branch/i);
+    fireEvent.click(addButton);
+
+    const pickButton = screen.getByText(/Pick from Map/i);
+    fireEvent.click(pickButton);
+
+    expect(screen.getByText(/Select Location on Map/i)).toBeInTheDocument();
+  });
 });

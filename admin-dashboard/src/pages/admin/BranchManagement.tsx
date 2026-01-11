@@ -9,7 +9,8 @@ import {
   Plus, 
   Trash2, 
   Save, 
-  X as CloseIcon 
+  X as CloseIcon,
+  MapPin
 } from "lucide-react";
 import {
   Dialog,
@@ -21,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import MapPicker from "@/components/MapPicker";
 
 interface Branch {
   id?: number;
@@ -35,6 +37,7 @@ export default function BranchManagement() {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
   const [currentBranch, setCurrentBranch] = useState<Branch | null>(null);
   const [formData, setFormData] = useState<Branch>({
     name: "",
@@ -43,6 +46,7 @@ export default function BranchManagement() {
     longitude: 0,
     radius_meters: 100,
   });
+  const [tempCoords, setTempCoords] = useState({ lat: 0, lng: 0 });
 
   const getHeaders = () => {
     const token = localStorage.getItem('token');
@@ -82,12 +86,26 @@ export default function BranchManagement() {
       setFormData({
         name: "",
         address: "",
-        latitude: 0,
-        longitude: 0,
+        latitude: 14.5995, // Default to Manila if adding new
+        longitude: 120.9842,
         radius_meters: 100,
       });
     }
     setIsDialogOpen(true);
+  };
+
+  const openMapPicker = () => {
+    setTempCoords({ lat: formData.latitude, lng: formData.longitude });
+    setIsMapOpen(true);
+  };
+
+  const confirmMapLocation = () => {
+    setFormData({
+      ...formData,
+      latitude: tempCoords.lat,
+      longitude: tempCoords.lng,
+    });
+    setIsMapOpen(false);
   };
 
   const handleSave = async () => {
@@ -259,6 +277,20 @@ export default function BranchManagement() {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
+              <div className="col-start-2 col-span-3">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={openMapPicker}
+                >
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Pick from Map
+                </Button>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="radius" className="text-right">Radius (m)</Label>
               <Input
                 id="radius"
@@ -277,6 +309,32 @@ export default function BranchManagement() {
             <Button onClick={handleSave}>
               <Save className="h-4 w-4 mr-2" />
               Save Branch
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Map Picker Dialog */}
+      <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Select Location on Map</DialogTitle>
+            <DialogDescription>
+              Pan and zoom the map to center the crosshair over the branch location.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <MapPicker 
+              initialCenter={[formData.latitude, formData.longitude]}
+              onLocationSelect={(lat, lng) => setTempCoords({ lat, lng })}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsMapOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmMapLocation}>
+              Confirm Location
             </Button>
           </DialogFooter>
         </DialogContent>
