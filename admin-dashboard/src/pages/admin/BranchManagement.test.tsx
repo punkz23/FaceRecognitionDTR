@@ -45,20 +45,22 @@ describe('BranchManagement', () => {
     expect(screen.getByLabelText(/Address/i)).toBeInTheDocument();
   });
 
-  it('opens map picker dialog when clicking pick from map button', async () => {
-    (window.fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => [],
-    });
-
+  it('updates form coordinates when confirming map selection', async () => {
+    (window.fetch as any).mockResolvedValueOnce({ ok: true, json: async () => [] });
     render(<BranchManagement />);
 
-    const addButton = screen.getByText(/Add Branch/i);
-    fireEvent.click(addButton);
+    fireEvent.click(screen.getByText(/Add Branch/i));
+    fireEvent.click(screen.getByText(/Pick from Map/i));
 
-    const pickButton = screen.getByText(/Pick from Map/i);
-    fireEvent.click(pickButton);
+    // Note: We've verified MapPicker interaction in its own unit test.
+    // In this integration test, we verify the 'Confirm Location' button
+    // correctly applies the temporary state to the main form.
+    
+    const confirmButton = screen.getByText(/Confirm Location/i);
+    fireEvent.click(confirmButton);
 
-    expect(screen.getByText(/Select Location on Map/i)).toBeInTheDocument();
+    // Default coordinates from Manila default in openDialog
+    expect(screen.getByLabelText(/Latitude/i)).toHaveValue(14.5995);
+    expect(screen.getByLabelText(/Longitude/i)).toHaveValue(120.9842);
   });
 });
