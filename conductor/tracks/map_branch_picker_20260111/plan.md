@@ -5,9 +5,9 @@ This plan outlines the steps to implement an interactive map-based coordinate pi
 ## Phase 1: Dependencies & Base Component
 - [x] Task: Install Leaflet and React-Leaflet (8db2154)
     - [x] Implement Feature: Install `leaflet`, `react-leaflet`, and `@types/leaflet` in the `admin-dashboard` directory.
-- [ ] Task: Create Map Component Skeleton
-    - [ ] Write Tests: Create a basic test to verify the map component renders in the DOM.
-    - [ ] Implement Feature: Create a `MapPicker` component that initializes a Leaflet map centered on a default location.
+- [x] Task: Create Map Component Skeleton (9b4cb19)
+    - [x] Write Tests: Create a basic test to verify the map component renders in the DOM.
+    - [x] Implement Feature: Create a `MapPicker` component that initializes a Leaflet map centered on a default location.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Dependencies & Base Component' (Protocol in workflow.md)
 
 ## Phase 2: Picker Modal & Selection Logic
