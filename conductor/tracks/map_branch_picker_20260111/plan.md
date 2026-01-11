@@ -1,0 +1,35 @@
+# Plan: Map-Based Branch Location Picker
+
+This plan outlines the steps to implement an interactive map-based coordinate picker for branch management in the admin dashboard.
+
+## Phase 1: Dependencies & Base Component
+- [x] Task: Install Leaflet and React-Leaflet (8db2154)
+    - [x] Implement Feature: Install `leaflet`, `react-leaflet`, and `@types/leaflet` in the `admin-dashboard` directory.
+- [ ] Task: Create Map Component Skeleton
+    - [ ] Write Tests: Create a basic test to verify the map component renders in the DOM.
+    - [ ] Implement Feature: Create a `MapPicker` component that initializes a Leaflet map centered on a default location.
+- [ ] Task: Conductor - User Manual Verification 'Phase 1: Dependencies & Base Component' (Protocol in workflow.md)
+
+## Phase 2: Picker Modal & Selection Logic
+- [ ] Task: Implement Map Selection Modal
+    - [ ] Write Tests: Test that clicking the "Pick from Map" button opens the dialog.
+    - [ ] Implement Feature: Integrate the `MapPicker` into a Shadcn/UI `Dialog`. Add a "Pick from Map" button to the `BranchForm`.
+- [ ] Task: Implement Center Crosshair & Coordinate Tracking
+    - [ ] Write Tests: Verify that panning the map updates the tracked coordinates.
+    - [ ] Implement Feature: Add a visual crosshair overlay. Use Leaflet's `move` event to track the map's center coordinates and update a "Confirm" button's state.
+- [ ] Task: Conductor - User Manual Verification 'Phase 2: Picker Modal & Selection Logic' (Protocol in workflow.md)
+
+## Phase 3: Search & Geofence Visualization
+- [ ] Task: Integrate Nominatim Search
+    - [ ] Write Tests: Mock the Nominatim API and verify that selecting a result pans the map.
+    - [ ] Implement Feature: Add a search input that queries Nominatim and moves the map to the selected address.
+- [ ] Task: Add Dynamic Radius Circle
+    - [ ] Write Tests: Verify the circle radius updates when the form's radius value changes.
+    - [ ] Implement Feature: Render a `L.Circle` centered on the crosshair that reactively scales with the `radius` field from the branch form.
+- [ ] Task: Conductor - User Manual Verification 'Phase 3: Search & Geofence Visualization' (Protocol in workflow.md)
+
+## Phase 4: Final Integration & UX
+- [ ] Task: Finalize Coordinate Hand-back
+    - [ ] Write Tests: Test that clicking "Confirm" in the modal populates the main form's Lat/Long fields.
+    - [ ] Implement Feature: Connect the modal's "Confirm" action to the form state.
+- [ ] Task: Conductor - User Manual Verification 'Phase 4: Final Integration & UX' (Protocol in workflow.md)
